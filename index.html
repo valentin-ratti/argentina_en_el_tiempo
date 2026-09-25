@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#071527"
+    >
+
+    <title>Argentina en el Tiempo</title>
+
+    <!-- LEAFLET CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- NUESTRO CSS -->
+    <link
+        rel="stylesheet"
+        href="css/styles.css"
+    >
+</head>
+
+
+<body>
+
+<div id="app">
+
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA DE INICIO                                     -->
+    <!-- ===================================================== -->
+
+    <section
+        id="screen-home"
+        class="screen active"
+    >
+
+        <header class="topbar">
+
+            <button
+                class="brand"
+                data-go-home
+            >
+
+                <span class="brand-sun">
+                    ☀
+                </span>
+
+                <span>
+
+                    <strong>
+                        ARGENTINA
+                    </strong>
+
+                    <small>
+                        EN EL TIEMPO
+                    </small>
+
+                </span>
+
+            </button>
+
+
+            <nav class="topnav">
+
+                <button
+                    class="nav-link active"
+                    data-home-tab="daily"
+                >
+                    DESAFÍO
+                </button>
+
+                <button
+                    class="nav-link"
+                    data-home-tab="archive"
+                >
+                    ARCHIVO
+                </button>
+
+                <button
+                    class="nav-link"
+                    data-home-tab="about"
+                >
+                    CÓMO JUGAR
+                </button>
+
+            </nav>
+
+
+            <div class="topbar-actions">
+
+                <div class="best-score">
+
+                    <span>
+                        MEJOR
+                    </span>
+
+                    <strong id="best-score-home">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <button
+                    id="open-help"
+                    class="icon-button"
+                >
+                    ?
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <main class="home-main">
+
+
+            <div class="hero-copy">
+
+
+                <div class="eyebrow">
+
+                    <span></span>
+
+                    HISTORIA · GEOGRAFÍA · ARGENTINA
+
+                </div>
+
+
+                <h1>
+
+                    ¿DÓNDE Y
+
+                    <em>
+                        CUÁNDO
+                    </em>
+
+                    <br>
+
+                    FUE TOMADA?
+
+                </h1>
+
+
+                <p>
+
+                    Observá una fotografía histórica argentina,
+                    ubicá el lugar en el mapa y tratá de descubrir
+                    en qué año fue tomada.
+
+                </p>
+
+
+                <div class="hero-actions">
+
+                    <button
+                        id="start-game"
+                        class="primary-button large"
+                    >
+
+                        JUGAR AHORA
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="show-how"
+                        class="secondary-button large"
+                    >
+
+                        CÓMO SE JUEGA
+
+                    </button>
+
+                </div>
+
+
+
+                <div class="mode-strip">
+
+
+                    <div>
+
+                        <strong>
+                            5
+                        </strong>
+
+                        <span>
+                            rondas
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            25.000
+                        </strong>
+
+                        <span>
+                            puntos
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            1860–2026
+                        </strong>
+
+                        <span>
+                            años
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="hero-visual">
+
+
+                <div class="preview-card preview-photo">
+
+                    <div class="preview-tag">
+
+                        FOTO #01
+
+                    </div>
+
+
+                    <img
+                        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Cabildo%20buenos%20aires%201915.jpg"
+                        alt="Fotografía histórica"
+                    >
+
+                </div>
+
+
+
+                <div class="preview-card preview-map">
+
+                    <div class="fake-map-grid"></div>
+
+                    <div class="argentina-word">
+
+                        ARGENTINA
+
+                    </div>
+
+
+                    <div class="fake-pin pin-one"></div>
+
+                    <div class="fake-pin pin-two"></div>
+
+                    <div class="fake-pin pin-three"></div>
+
+                </div>
+
+
+
+                <div class="preview-year">
+
+                    <span>
+                        ¿EN QUÉ AÑO?
+                    </span>
+
+                    <strong>
+                        1915
+                    </strong>
+
+                    <div class="mini-slider">
+
+                        <i></i>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+
+        <section class="feature-band">
+
+
+            <article>
+
+                <span class="feature-number">
+                    01
+                </span>
+
+                <h3>
+                    MIRÁ LOS DETALLES
+                </h3>
+
+                <p>
+                    Edificios, vehículos, ropa,
+                    carteles y paisajes pueden
+                    darte pistas.
+                </p>
+
+            </article>
+
+
+
+            <article>
+
+                <span class="feature-number">
+                    02
+                </span>
+
+                <h3>
+                    MARCÁ EL LUGAR
+                </h3>
+
+                <p>
+                    Elegí sobre el mapa
+                    dónde creés que fue tomada.
+                </p>
+
+            </article>
+
+
+
+            <article>
+
+                <span class="feature-number">
+                    03
+                </span>
+
+                <h3>
+                    ELEGÍ EL AÑO
+                </h3>
+
+                <p>
+                    Utilizá la línea temporal
+                    para indicar el año.
+                </p>
+
+            </article>
+
+
+
+            <article>
+
+                <span class="feature-number">
+                    04
+                </span>
+
+                <h3>
+                    DESCUBRÍ LA HISTORIA
+                </h3>
+
+                <p>
+                    Después de responder
+                    vas a conocer el lugar real.
+                </p>
+
+            </article>
+
+
+        </section>
+
+
+
+        <footer class="site-footer">
+
+            <span>
+                ARGENTINA EN EL TIEMPO
+            </span>
+
+            <span>
+                MAPAS © OPENSTREETMAP
+            </span>
+
+        </footer>
+
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA DEL JUEGO                                     -->
+    <!-- ===================================================== -->
+
+    <section
+        id="screen-game"
+        class="screen"
+    >
+
+
+        <header class="game-header">
+
+
+            <button
+                class="brand brand-compact"
+                data-go-home
+            >
+
+                <span class="brand-sun">
+                    ☀
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        ARGENTINA
+                    </strong>
+
+                    <small>
+                        EN EL TIEMPO
+                    </small>
+
+                </span>
+
+            </button>
+
+
+
+            <div class="round-progress">
+
+
+                <div class="round-label">
+
+                    <span id="round-label">
+
+                        RONDA 1 / 5
+
+                    </span>
+
+
+                    <strong id="game-total-score">
+
+                        0 pts
+
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div id="progress-fill"></div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <button
+                id="quit-game"
+                class="quit-button"
+            >
+
+                SALIR
+
+            </button>
+
+
+        </header>
+
+
+
+        <main class="game-layout">
+
+
+            <!-- FOTO -->
+
+            <section class="photo-panel">
+
+
+                <div class="photo-toolbar">
+
+
+                    <div>
+
+                        <span class="live-dot"></span>
+
+                        <strong id="photo-sequence">
+
+                            ARCHIVO #AR-001
+
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="toolbar-actions">
+
+
+                        <button id="zoom-out">
+                            −
+                        </button>
+
+
+                        <span id="zoom-value">
+                            100%
+                        </span>
+
+
+                        <button id="zoom-in">
+                            +
+                        </button>
+
+
+                        <button id="fullscreen-photo">
+                            ⛶
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div
+                    id="photo-stage"
+                    class="photo-stage"
+                >
+
+
+                    <img
+                        id="round-image"
+                        src=""
+                        alt="Fotografía histórica"
+                        draggable="false"
+                    >
+
+
+                    <div class="photo-tip">
+
+                        <span>
+                            PISTA
+                        </span>
+
+                        <p>
+                            Observá arquitectura,
+                            vehículos, vestimenta,
+                            carteles y paisaje.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- PANEL DERECHO -->
+
+            <aside class="guess-panel">
+
+
+                <div class="guess-section map-section">
+
+
+                    <div class="section-title">
+
+
+                        <div>
+
+
+                            <span class="section-index">
+
+                                01
+
+                            </span>
+
+
+                            <div>
+
+                                <h2>
+                                    ¿DÓNDE?
+                                </h2>
+
+                                <p>
+                                    Hacé clic sobre el mapa
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <span
+                            id="location-status"
+                            class="status-pill pending"
+                        >
+
+                            SIN MARCAR
+
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- MAPA -->
+
+                    <div id="map"></div>
+
+
+
+                    <div class="map-hint">
+
+                        🇦🇷
+
+                        <span>
+                            Elegí un lugar dentro de Argentina.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="guess-section year-section">
+
+
+                    <div class="section-title">
+
+
+                        <div>
+
+
+                            <span class="section-index">
+
+                                02
+
+                            </span>
+
+
+                            <div>
+
+                                <h2>
+                                    ¿CUÁNDO?
+                                </h2>
+
+                                <p>
+                                    Elegí el año
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="year-input-wrap">
+
+                            <input
+                                id="year-input"
+                                type="number"
+                                min="1860"
+                                max="2026"
+                                value="1945"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <input
+                        id="year-slider"
+                        class="year-slider"
+                        type="range"
+                        min="1860"
+                        max="2026"
+                        value="1945"
+                    >
+
+
+
+                    <div class="year-axis">
+
+                        <span>
+                            1860
+                        </span>
+
+                        <span>
+                            1900
+                        </span>
+
+                        <span>
+                            1950
+                        </span>
+
+                        <span>
+                            2000
+                        </span>
+
+                        <span>
+                            2026
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <button
+                    id="submit-guess"
+                    class="primary-button submit-button"
+                    disabled
+                >
+
+                    CONFIRMAR RESPUESTA
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+            </aside>
+
+
+        </main>
+
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- RESULTADO DE LA RONDA                                 -->
+    <!-- ===================================================== -->
+
+    <section
+        id="screen-result"
+        class="screen"
+    >
+
+
+        <header class="result-header">
+
+
+            <button
+                class="brand brand-compact"
+                data-go-home
+            >
+
+                <span class="brand-sun">
+                    ☀
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        ARGENTINA
+                    </strong>
+
+                    <small>
+                        EN EL TIEMPO
+                    </small>
+
+                </span>
+
+
+            </button>
+
+
+
+            <div
+                id="result-round-tag"
+                class="result-round-tag"
+            >
+
+                RESULTADO
+
+            </div>
+
+
+        </header>
+
+
+
+        <main class="result-layout">
+
+
+            <section class="result-media">
+
+
+                <div class="result-photo-wrap">
+
+
+                    <img
+                        id="result-image"
+                        src=""
+                        alt="Resultado"
+                    >
+
+
+
+                    <div class="result-photo-caption">
+
+
+                        <span id="result-place-caption">
+
+                            Buenos Aires
+
+                        </span>
+
+
+                        <strong id="result-year-caption">
+
+                            1915
+
+                        </strong>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div id="result-map"></div>
+
+
+            </section>
+
+
+
+            <aside class="result-info">
+
+
+                <div class="result-kicker">
+
+                    RESPUESTA REVELADA
+
+                </div>
+
+
+                <h1 id="result-place">
+
+                    Buenos Aires
+
+                </h1>
+
+
+                <p id="result-description">
+
+                </p>
+
+
+
+                <div class="score-card">
+
+
+                    <div>
+
+                        <span>
+                            UBICACIÓN
+                        </span>
+
+                        <strong id="location-points">
+                            0
+                        </strong>
+
+                        <small>
+                            / 2.500
+                        </small>
+
+                        <p id="distance-result">
+                            -
+                        </p>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            FECHA
+                        </span>
+
+                        <strong id="year-points">
+                            0
+                        </strong>
+
+                        <small>
+                            / 2.500
+                        </small>
+
+                        <p id="year-error-result">
+                            -
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="round-total">
+
+
+                    <span>
+                        PUNTAJE DE LA RONDA
+                    </span>
+
+
+                    <strong id="round-score">
+                        0
+                    </strong>
+
+
+                    <small>
+                        / 5.000
+                    </small>
+
+
+                </div>
+
+
+
+                <div class="answer-comparison">
+
+
+                    <div>
+
+                        <span>
+                            TU AÑO
+                        </span>
+
+                        <strong id="your-year">
+                            -
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            AÑO CORRECTO
+                        </span>
+
+                        <strong id="correct-year">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <a
+                    id="source-link"
+                    class="source-link"
+                    target="_blank"
+                >
+
+                    VER FUENTE DE LA FOTOGRAFÍA ↗
+
+                </a>
+
+
+
+                <button
+                    id="next-round"
+                    class="primary-button submit-button"
+                >
+
+                    SIGUIENTE RONDA
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+            </aside>
+
+
+        </main>
+
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- RESULTADO FINAL                                       -->
+    <!-- ===================================================== -->
+
+    <section
+        id="screen-final"
+        class="screen"
+    >
+
+
+        <header class="final-top">
+
+
+            <button
+                class="brand brand-compact"
+                data-go-home
+            >
+
+                <span class="brand-sun">
+                    ☀
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        ARGENTINA
+                    </strong>
+
+                    <small>
+                        EN EL TIEMPO
+                    </small>
+
+                </span>
+
+
+            </button>
+
+
+        </header>
+
+
+
+        <main class="final-main">
+
+
+            <div class="final-flag">
+
+                <span></span>
+
+                <i>
+                    ☀
+                </i>
+
+                <span></span>
+
+            </div>
+
+
+
+            <div class="final-kicker">
+
+                PARTIDA COMPLETADA
+
+            </div>
+
+
+
+            <h1>
+
+                ¿CUÁNTO CONOCÉS
+
+                <br>
+
+                <em>
+                    LA ARGENTINA?
+                </em>
+
+            </h1>
+
+
+
+            <div class="final-score-wrap">
+
+
+                <span>
+                    PUNTAJE FINAL
+                </span>
+
+
+                <strong id="final-score">
+
+                    0
+
+                </strong>
+
+
+                <small>
+
+                    / 25.000
+
+                </small>
+
+
+
+                <div
+                    id="final-rank"
+                    class="final-rank"
+                >
+
+                    EXPLORADOR
+
+                </div>
+
+
+            </div>
+
+
+
+            <div
+                id="round-summary"
+                class="round-summary"
+            >
+            </div>
+
+
+
+            <div class="final-actions">
+
+
+                <button
+                    id="play-again"
+                    class="primary-button large"
+                >
+
+                    JUGAR DE NUEVO
+
+                </button>
+
+
+
+                <button
+                    id="copy-result"
+                    class="secondary-button large"
+                >
+
+                    COPIAR RESULTADO
+
+                </button>
+
+
+            </div>
+
+
+            <p
+                id="copy-message"
+                class="copy-message"
+            >
+            </p>
+
+
+        </main>
+
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MODAL AYUDA                                           -->
+    <!-- ===================================================== -->
+
+    <div
+        id="help-modal"
+        class="modal"
+    >
+
+
+        <div
+            class="modal-backdrop"
+            data-close-modal
+        >
+        </div>
+
+
+
+        <div class="modal-card">
+
+
+            <button
+                class="modal-close"
+                data-close-modal
+            >
+
+                ×
+
+            </button>
+
+
+
+            <span class="modal-kicker">
+
+                CÓMO JUGAR
+
+            </span>
+
+
+
+            <h2>
+
+                Detective del tiempo
+
+            </h2>
+
+
+
+            <div class="how-grid">
+
+
+                <div>
+
+                    <strong>
+                        01
+                    </strong>
+
+                    <h3>
+                        OBSERVÁ
+                    </h3>
+
+                    <p>
+                        Mirá todos los detalles
+                        de la fotografía.
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        02
+                    </strong>
+
+                    <h3>
+                        UBICÁ
+                    </h3>
+
+                    <p>
+                        Marcá el lugar
+                        sobre Argentina.
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        03
+                    </strong>
+
+                    <h3>
+                        FECHÁ
+                    </h3>
+
+                    <p>
+                        Elegí el año
+                        de la fotografía.
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        04
+                    </strong>
+
+                    <h3>
+                        DESCUBRÍ
+                    </h3>
+
+                    <p>
+                        Compará tu respuesta
+                        con la correcta.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <button
+                id="modal-play"
+                class="primary-button"
+            >
+
+                EMPEZAR PARTIDA →
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- FOTO GRANDE                                           -->
+    <!-- ===================================================== -->
+
+    <div
+        id="photo-modal"
+        class="modal photo-modal"
+    >
+
+
+        <div
+            class="modal-backdrop"
+            data-close-photo
+        >
+        </div>
+
+
+        <button
+            class="photo-modal-close"
+            data-close-photo
+        >
+
+            ×
+
+        </button>
+
+
+        <img
+            id="photo-modal-image"
+            src=""
+            alt="Fotografía ampliada"
+        >
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- LEAFLET JS -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+
+<!-- NUESTRO JAVASCRIPT -->
+
+<script src="js/app.js"></script>
+
+
+</body>
+
+</html>
