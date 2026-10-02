@@ -4,146 +4,55 @@
 
 
 // ==========================================================
+// CONFIGURACIÓN
+// ==========================================================
+
+const ROUNDS_PER_GAME = 5;
+
+const MAX_LOCATION_SCORE = 2500;
+
+const MAX_YEAR_SCORE = 2500;
+
+const MAX_ROUND_SCORE =
+    MAX_LOCATION_SCORE +
+    MAX_YEAR_SCORE;
+
+const MAX_GAME_SCORE =
+    MAX_ROUND_SCORE *
+    ROUNDS_PER_GAME;
+
+
+const MIN_YEAR = 1860;
+
+const MAX_YEAR = 2026;
+
+const DEFAULT_YEAR = 1945;
+
+
+const ARGENTINA_CENTER = [
+    -38.5,
+    -63.5
+];
+
+const ARGENTINA_ZOOM = 4;
+
+
+const GAME_IMAGE_WIDTH = 1600;
+
+const FULLSCREEN_IMAGE_WIDTH = 2400;
+
+
+// ==========================================================
 // FOTOGRAFÍAS
 // ==========================================================
 
-const PHOTOS = [
+let PHOTOS = [];
 
-    {
-
-        id: "AR-001",
-
-        city: "Buenos Aires",
-
-        province: "Ciudad Autónoma de Buenos Aires",
-
-        year: 1915,
-
-        lat: -34.60875,
-
-        lng: -58.37321,
-
-        image:
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cabildo%20buenos%20aires%201915.jpg",
-
-        source:
-            "https://commons.wikimedia.org/wiki/File:Cabildo_buenos_aires_1915.jpg",
-
-        description:
-            "Vista histórica del Cabildo y la Plaza de Mayo. La arquitectura, los vehículos y la organización urbana permiten estimar tanto la ubicación como el período."
-
-    },
-
-
-    {
-
-        id: "AR-002",
-
-        city: "Córdoba",
-
-        province: "Córdoba",
-
-        year: 1900,
-
-        lat: -31.41298,
-
-        lng: -64.18815,
-
-        image:
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Avenida%20Col%C3%B3n%20de%20C%C3%B3rdoba%20%28Argentina%29%20a%C3%B1os%201900.png",
-
-        source:
-            "https://commons.wikimedia.org/wiki/File:Avenida_Col%C3%B3n_de_C%C3%B3rdoba_(Argentina)_a%C3%B1os_1900.png",
-
-        description:
-            "Avenida Colón de la ciudad de Córdoba alrededor del año 1900."
-
-    },
-
-
-    {
-
-        id: "AR-003",
-
-        city: "Rosario",
-
-        province: "Santa Fe",
-
-        year: 1900,
-
-        lat: -32.9369,
-
-        lng: -60.6479,
-
-        image:
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Tranvia%20rosario%201900.jpg",
-
-        source:
-            "https://commons.wikimedia.org/wiki/File:Tranvia_rosario_1900.jpg",
-
-        description:
-            "Tranvía histórico de Rosario. El transporte y la arquitectura son importantes pistas temporales."
-
-    },
-
-
-    {
-
-        id: "AR-004",
-
-        city: "San Carlos de Bariloche",
-
-        province: "Río Negro",
-
-        year: 1916,
-
-        lat: -41.1335,
-
-        lng: -71.3103,
-
-        image:
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bariloche%2C%20Argentina%20%281916%29.jpg",
-
-        source:
-            "https://commons.wikimedia.org/wiki/File:Bariloche,_Argentina_(1916).jpg",
-
-        description:
-            "Vista temprana de San Carlos de Bariloche. El paisaje de montaña y el lago son las pistas geográficas principales."
-
-    },
-
-
-    {
-
-        id: "AR-005",
-
-        city: "Cacheuta",
-
-        province: "Mendoza",
-
-        year: 1890,
-
-        lat: -33.0358,
-
-        lng: -69.1162,
-
-        image:
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Archivo%20General%20de%20la%20Naci%C3%B3n%20Argentina%201890%20aprox%20Mendoza%2C%20estaci%C3%B3n%20de%20Cacheuta.jpg",
-
-        source:
-            "https://commons.wikimedia.org/wiki/File:Archivo_General_de_la_Naci%C3%B3n_Argentina_1890_aprox_Mendoza,_estaci%C3%B3n_de_Cacheuta.jpg",
-
-        description:
-            "Estación ferroviaria de Cacheuta, Mendoza, hacia fines del siglo XIX."
-
-    }
-
-];
-
+let photosLoaded = false;
 
 
 // ==========================================================
-// ESTADO DEL JUEGO
+// ESTADO
 // ==========================================================
 
 const state = {
@@ -154,7 +63,8 @@ const state = {
 
     guess: null,
 
-    selectedYear: 1945,
+    selectedYear:
+        DEFAULT_YEAR,
 
     rounds: [],
 
@@ -167,7 +77,6 @@ const state = {
 };
 
 
-
 // ==========================================================
 // MAPAS
 // ==========================================================
@@ -175,6 +84,8 @@ const state = {
 let map = null;
 
 let resultMap = null;
+
+let homePreviewMap = null;
 
 
 let guessMarker = null;
@@ -191,18 +102,48 @@ let mapResizeObserver = null;
 let resultMapResizeObserver = null;
 
 
+// ==========================================================
+// FOTO
+// ==========================================================
+
+const imageCache =
+    new Map();
+
+
+let photoPanX = 0;
+
+let photoPanY = 0;
+
+
+let photoDragging = false;
+
+
+let photoDragStartX = 0;
+
+let photoDragStartY = 0;
+
+
+let photoDragOriginX = 0;
+
+let photoDragOriginY = 0;
+
 
 // ==========================================================
-// ACCESOS RÁPIDOS
+// SELECTORES
 // ==========================================================
 
-const $ = selector =>
-    document.querySelector(selector);
+const $ =
+    selector =>
+        document.querySelector(
+            selector
+        );
 
 
-const $$ = selector =>
-    document.querySelectorAll(selector);
-
+const $$ =
+    selector =>
+        document.querySelectorAll(
+            selector
+        );
 
 
 const screens = {
@@ -222,9 +163,378 @@ const screens = {
 };
 
 
+// ==========================================================
+// OPTIMIZAR FOTO
+// ==========================================================
+
+function optimizedImageUrl(
+    url,
+    width = GAME_IMAGE_WIDTH
+) {
+
+    if (!url) {
+
+        return "";
+
+    }
+
+
+    if (
+        url.includes(
+            "commons.wikimedia.org/wiki/Special:Redirect/file/"
+        )
+    ) {
+
+        const separator =
+            url.includes("?")
+                ? "&"
+                : "?";
+
+
+        return (
+            `${url}${separator}width=${width}`
+        );
+
+    }
+
+
+    return url;
+
+}
+
 
 // ==========================================================
-// ICONOS DEL MAPA
+// PRECARGAR FOTO
+// ==========================================================
+
+function preloadImage(
+    url,
+    width = GAME_IMAGE_WIDTH
+) {
+
+    const finalUrl =
+        optimizedImageUrl(
+            url,
+            width
+        );
+
+
+    if (
+        imageCache.has(
+            finalUrl
+        )
+    ) {
+
+        return imageCache.get(
+            finalUrl
+        );
+
+    }
+
+
+    const promise =
+
+        new Promise(
+            (
+                resolve,
+                reject
+            ) => {
+
+                const image =
+                    new Image();
+
+
+                image.onload =
+                    () => {
+
+                        resolve(
+                            finalUrl
+                        );
+
+                    };
+
+
+                image.onerror =
+                    () => {
+
+                        imageCache.delete(
+                            finalUrl
+                        );
+
+
+                        reject(
+                            new Error(
+                                `No se pudo cargar ${finalUrl}`
+                            )
+                        );
+
+                    };
+
+
+                image.src =
+                    finalUrl;
+
+            }
+        );
+
+
+    imageCache.set(
+        finalUrl,
+        promise
+    );
+
+
+    return promise;
+
+}
+
+
+// ==========================================================
+// PRECARGAR SIGUIENTE
+// ==========================================================
+
+function preloadNextPhoto() {
+
+    const nextItem =
+
+        state.order[
+            state.round + 1
+        ];
+
+
+    if (!nextItem) {
+
+        return;
+
+    }
+
+
+    preloadImage(
+        nextItem.image,
+        GAME_IMAGE_WIDTH
+    )
+    .catch(
+        () => {}
+    );
+
+}
+
+
+// ==========================================================
+// FOTOS.JSON
+// ==========================================================
+
+async function loadPhotos() {
+
+    if (
+        photosLoaded &&
+        PHOTOS.length > 0
+    ) {
+
+        return true;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                "data/fotos.json",
+
+                {
+
+                    cache:
+                        "no-store"
+
+                }
+
+            );
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                `Error HTTP ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !Array.isArray(
+                data
+            )
+        ) {
+
+            throw new Error(
+                "fotos.json no contiene una lista válida."
+            );
+
+        }
+
+
+        PHOTOS =
+
+            data
+
+            .filter(
+                photo => {
+
+                    return (
+
+                        photo &&
+
+                        typeof photo.id ===
+                            "string" &&
+
+                        typeof photo.city ===
+                            "string" &&
+
+                        typeof photo.province ===
+                            "string" &&
+
+                        Number.isFinite(
+                            Number(
+                                photo.year
+                            )
+                        ) &&
+
+                        Number.isFinite(
+                            Number(
+                                photo.lat
+                            )
+                        ) &&
+
+                        Number.isFinite(
+                            Number(
+                                photo.lng
+                            )
+                        ) &&
+
+                        typeof photo.image ===
+                            "string"
+
+                    );
+
+                }
+            )
+
+            .map(
+                photo => {
+
+                    return {
+
+                        ...photo,
+
+                        year:
+                            Number(
+                                photo.year
+                            ),
+
+                        lat:
+                            Number(
+                                photo.lat
+                            ),
+
+                        lng:
+                            Number(
+                                photo.lng
+                            )
+
+                    };
+
+                }
+            );
+
+
+        if (
+            PHOTOS.length === 0
+        ) {
+
+            throw new Error(
+                "No hay fotografías válidas."
+            );
+
+        }
+
+
+        photosLoaded =
+            true;
+
+
+        updatePhotoCounter();
+
+
+        console.log(
+            `${PHOTOS.length} fotografías cargadas.`
+        );
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error cargando fotos.json:",
+            error
+        );
+
+
+        alert(
+
+            "No se pudo cargar data/fotos.json.\n\n" +
+
+            "Abrí el proyecto usando Live Server desde Visual Studio Code."
+
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+// ==========================================================
+// CONTADOR
+// ==========================================================
+
+function updatePhotoCounter() {
+
+    const counter =
+        $("#photo-count-home");
+
+
+    if (!counter) {
+
+        return;
+
+    }
+
+
+    counter.textContent =
+
+        PHOTOS.length
+            .toLocaleString(
+                "es-AR"
+            );
+
+}
+
+
+// ==========================================================
+// ICONOS
 // ==========================================================
 
 const guessIcon =
@@ -255,7 +565,6 @@ const guessIcon =
     });
 
 
-
 const answerIcon =
     L.divIcon({
 
@@ -284,23 +593,272 @@ const answerIcon =
     });
 
 
-
 // ==========================================================
-// CAMBIO DE PANTALLAS
+// MINI MAPA DE PORTADA
 // ==========================================================
 
-function showScreen(name) {
+function initHomePreviewMap() {
+
+    const element =
+        document.getElementById(
+            "home-preview-map"
+        );
 
 
-    Object
-        .values(screens)
-        .forEach(screen => {
+    if (!element) {
 
-            screen.classList.remove(
-                "active"
-            );
+        return;
+
+    }
+
+
+    if (
+        homePreviewMap
+    ) {
+
+        requestAnimationFrame(
+            () => {
+
+                homePreviewMap
+                    .invalidateSize(
+                        false
+                    );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    homePreviewMap =
+        L.map(
+
+            element,
+
+            {
+
+                zoomControl:
+                    false,
+
+                dragging:
+                    false,
+
+                scrollWheelZoom:
+                    false,
+
+                doubleClickZoom:
+                    false,
+
+                boxZoom:
+                    false,
+
+                keyboard:
+                    false,
+
+                touchZoom:
+                    false,
+
+                attributionControl:
+                    true
+
+            }
+
+        );
+
+
+    L.tileLayer(
+
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+        {
+
+            maxZoom:
+                18,
+
+            attribution:
+                "&copy; OpenStreetMap"
+
+        }
+
+    )
+    .addTo(
+        homePreviewMap
+    );
+
+
+    /*
+    Tres puntos decorativos:
+    Buenos Aires
+    Córdoba
+    Bariloche
+    */
+
+    const points = [
+
+        [
+            -34.6037,
+            -58.3816
+        ],
+
+        [
+            -31.4201,
+            -64.1888
+        ],
+
+        [
+            -41.1335,
+            -71.3103
+        ]
+
+    ];
+
+
+    const previewIcon =
+        L.divIcon({
+
+            className:
+                "",
+
+            html: `
+
+                <div style="
+                    width:18px;
+                    height:18px;
+
+                    border-radius:50%;
+
+                    background:#78c8f2;
+
+                    border:4px solid white;
+
+                    box-shadow:
+                        0 3px 10px
+                        rgba(0,0,0,.45);
+                ">
+                </div>
+
+            `,
+
+            iconSize:
+                [18,18],
+
+            iconAnchor:
+                [9,9]
 
         });
+
+
+    points.forEach(
+        point => {
+
+            L.marker(
+
+                point,
+
+                {
+
+                    icon:
+                        previewIcon,
+
+                    interactive:
+                        false
+
+                }
+
+            )
+            .addTo(
+                homePreviewMap
+            );
+
+        }
+    );
+
+
+    /*
+    Mostramos prácticamente toda Argentina
+    en lugar de acercarnos únicamente
+    a los tres puntos.
+    */
+
+    const argentinaBounds =
+        L.latLngBounds(
+
+            [
+                -55.1,
+                -73.7
+            ],
+
+            [
+                -21.7,
+                -53.5
+            ]
+
+        );
+
+
+    homePreviewMap.fitBounds(
+
+        argentinaBounds,
+
+        {
+
+            padding:
+                [10,10],
+
+            animate:
+                false
+
+        }
+
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            requestAnimationFrame(
+                () => {
+
+                    homePreviewMap
+                        .invalidateSize(
+                            true
+                        );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+// ==========================================================
+// PANTALLAS
+// ==========================================================
+
+function showScreen(
+    name
+) {
+
+    Object
+        .values(
+            screens
+        )
+        .forEach(
+            screen => {
+
+                screen
+                    .classList
+                    .remove(
+                        "active"
+                    );
+
+            }
+        );
 
 
     screens[name]
@@ -316,68 +874,79 @@ function showScreen(name) {
     );
 
 
-    /*
-    Esperamos dos frames para asegurarnos
-    de que el navegador ya haya calculado
-    el ancho real del contenedor.
-    */
+    requestAnimationFrame(
+        () => {
 
-    requestAnimationFrame(() => {
-
-        requestAnimationFrame(() => {
+            requestAnimationFrame(
+                () => {
 
 
-            // =============================
-            // MAPA DEL JUEGO
-            // =============================
+                    if (
+                        name ===
+                        "home"
+                    ) {
 
-            if (
-                name === "game"
-            ) {
-
-                ensureGameMap();
-
-            }
+                        initHomePreviewMap();
 
 
-            // =============================
-            // MAPA DEL RESULTADO
-            // =============================
+                        if (
+                            homePreviewMap
+                        ) {
 
-            if (
-                name === "result"
-            ) {
+                            homePreviewMap
+                                .invalidateSize(
+                                    true
+                                );
 
-                ensureResultMap();
+                        }
+
+                    }
 
 
-                if (
-                    state.pendingResult
-                ) {
+                    if (
+                        name ===
+                        "game"
+                    ) {
 
-                    renderResultMap(
-                        state.pendingResult
-                    );
+                        ensureGameMap();
+
+                    }
+
+
+                    if (
+                        name ===
+                        "result"
+                    ) {
+
+                        ensureResultMap();
+
+
+                        if (
+                            state.pendingResult
+                        ) {
+
+                            renderResultMap(
+                                state.pendingResult
+                            );
+
+                        }
+
+                    }
 
                 }
+            );
 
-            }
-
-
-        });
-
-    });
+        }
+    );
 
 }
 
 
-
 // ==========================================================
-// MAPA PRINCIPAL
+// MAPA DEL JUEGO
 // ==========================================================
 
 function ensureGameMap() {
-
 
     const element =
         document.getElementById(
@@ -392,16 +961,18 @@ function ensureGameMap() {
     }
 
 
-
-    // Si ya existe
-    // solamente recalculamos dimensiones
-
-    if (map) {
-
+    if (
+        map
+    ) {
 
         map.invalidateSize({
-            animate: false,
-            pan: false
+
+            animate:
+                false,
+
+            pan:
+                false
+
         });
 
 
@@ -410,30 +981,34 @@ function ensureGameMap() {
     }
 
 
-
-    // Creamos el mapa recién ahora
-    // cuando ya es visible
-
     map =
         L.map(
+
             element,
+
             {
 
-                zoomControl: true,
+                zoomControl:
+                    true,
 
-                minZoom: 3,
+                minZoom:
+                    3,
 
-                maxZoom: 15,
+                maxZoom:
+                    15,
 
-                zoomAnimation: false,
+                zoomAnimation:
+                    false,
 
-                fadeAnimation: false,
+                fadeAnimation:
+                    false,
 
-                markerZoomAnimation: false
+                markerZoomAnimation:
+                    false
 
             }
-        );
 
+        );
 
 
     L.tileLayer(
@@ -442,45 +1017,41 @@ function ensureGameMap() {
 
         {
 
-            maxZoom: 19,
+            maxZoom:
+                19,
 
             attribution:
-                "&copy; OpenStreetMap"
+                "&copy; OpenStreetMap contributors"
 
         }
 
     )
-    .addTo(map);
-
+    .addTo(
+        map
+    );
 
 
     map.setView(
 
-        [
-            -38.5,
-            -63.5
-        ],
+        ARGENTINA_CENTER,
 
-        4,
+        ARGENTINA_ZOOM,
 
         {
-            animate: false
+
+            animate:
+                false
+
         }
 
     );
 
 
-
-    // ======================================================
-    // CLICK SOBRE EL MAPA
-    // ======================================================
-
     map.on(
 
         "click",
 
-        function(event) {
-
+        event => {
 
             const lat =
                 event.latlng.lat;
@@ -490,15 +1061,15 @@ function ensureGameMap() {
                 event.latlng.lng;
 
 
-
             state.guess = {
 
-                lat: lat,
+                lat:
+                    lat,
 
-                lng: lng
+                lng:
+                    lng
 
             };
-
 
 
             if (
@@ -507,10 +1078,10 @@ function ensureGameMap() {
 
                 guessMarker.remove();
 
-                guessMarker = null;
+                guessMarker =
+                    null;
 
             }
-
 
 
             guessMarker =
@@ -522,18 +1093,21 @@ function ensureGameMap() {
                     ],
 
                     {
-                        icon: guessIcon
+
+                        icon:
+                            guessIcon
+
                     }
 
                 )
-                .addTo(map);
-
+                .addTo(
+                    map
+                );
 
 
             $("#location-status")
                 .textContent =
                 "MARCADO";
-
 
 
             $("#location-status")
@@ -543,13 +1117,11 @@ function ensureGameMap() {
                 );
 
 
-
             $("#location-status")
                 .classList
                 .add(
                     "ready"
                 );
-
 
 
             updateSubmitState();
@@ -559,21 +1131,14 @@ function ensureGameMap() {
     );
 
 
-
-    // ======================================================
-    // OBSERVAR CAMBIOS DE TAMAÑO
-    // ======================================================
-
     if (
         typeof ResizeObserver !==
         "undefined"
     ) {
 
-
         mapResizeObserver =
             new ResizeObserver(
                 () => {
-
 
                     if (!map) {
 
@@ -582,24 +1147,24 @@ function ensureGameMap() {
                     }
 
 
-                    requestAnimationFrame(() => {
+                    requestAnimationFrame(
+                        () => {
 
+                            map.invalidateSize({
 
-                        map.invalidateSize({
+                                animate:
+                                    false,
 
-                            animate: false,
+                                pan:
+                                    false
 
-                            pan: false
+                            });
 
-                        });
-
-
-                    });
-
+                        }
+                    );
 
                 }
             );
-
 
 
         mapResizeObserver.observe(
@@ -609,31 +1174,30 @@ function ensureGameMap() {
     }
 
 
+    requestAnimationFrame(
+        () => {
 
-    // Recalculo final
+            map.invalidateSize({
 
-    requestAnimationFrame(() => {
+                animate:
+                    false,
 
-        map.invalidateSize({
+                pan:
+                    false
 
-            animate: false,
+            });
 
-            pan: false
-
-        });
-
-    });
+        }
+    );
 
 }
 
 
-
 // ==========================================================
-// MAPA DEL RESULTADO
+// MAPA RESULTADO
 // ==========================================================
 
 function ensureResultMap() {
-
 
     const element =
         document.getElementById(
@@ -648,15 +1212,17 @@ function ensureResultMap() {
     }
 
 
-
-    if (resultMap) {
-
+    if (
+        resultMap
+    ) {
 
         resultMap.invalidateSize({
 
-            animate: false,
+            animate:
+                false,
 
-            pan: false
+            pan:
+                false
 
         });
 
@@ -666,7 +1232,6 @@ function ensureResultMap() {
     }
 
 
-
     resultMap =
         L.map(
 
@@ -674,22 +1239,27 @@ function ensureResultMap() {
 
             {
 
-                zoomControl: true,
+                zoomControl:
+                    true,
 
-                minZoom: 3,
+                minZoom:
+                    3,
 
-                maxZoom: 15,
+                maxZoom:
+                    15,
 
-                zoomAnimation: false,
+                zoomAnimation:
+                    false,
 
-                fadeAnimation: false,
+                fadeAnimation:
+                    false,
 
-                markerZoomAnimation: false
+                markerZoomAnimation:
+                    false
 
             }
 
         );
-
 
 
     L.tileLayer(
@@ -698,29 +1268,27 @@ function ensureResultMap() {
 
         {
 
-            maxZoom: 19,
+            maxZoom:
+                19,
 
             attribution:
-                "&copy; OpenStreetMap"
+                "&copy; OpenStreetMap contributors"
 
         }
 
     )
-    .addTo(resultMap);
-
+    .addTo(
+        resultMap
+    );
 
 
     resultMap.setView(
 
-        [
-            -38.5,
-            -63.5
-        ],
+        ARGENTINA_CENTER,
 
-        4
+        ARGENTINA_ZOOM
 
     );
-
 
 
     if (
@@ -728,54 +1296,56 @@ function ensureResultMap() {
         "undefined"
     ) {
 
-
         resultMapResizeObserver =
             new ResizeObserver(
                 () => {
 
-
-                    if (!resultMap) {
+                    if (
+                        !resultMap
+                    ) {
 
                         return;
 
                     }
 
 
-                    requestAnimationFrame(() => {
+                    requestAnimationFrame(
+                        () => {
 
+                            resultMap.invalidateSize({
 
-                        resultMap.invalidateSize({
+                                animate:
+                                    false,
 
-                            animate: false,
+                                pan:
+                                    false
 
-                            pan: false
+                            });
 
-                        });
-
-
-                    });
-
+                        }
+                    );
 
                 }
             );
 
 
-        resultMapResizeObserver.observe(
-            element
-        );
+        resultMapResizeObserver
+            .observe(
+                element
+            );
 
     }
 
 }
 
 
-
 // ==========================================================
-// BARAJAR FOTOS
+// BARAJAR
 // ==========================================================
 
-function shuffle(array) {
-
+function shuffle(
+    array
+) {
 
     const copy =
         [...array];
@@ -792,28 +1362,23 @@ function shuffle(array) {
 
     ) {
 
-
         const j =
             Math.floor(
 
                 Math.random() *
-                (i + 1)
+                (
+                    i + 1
+                )
 
             );
 
 
         [
-
             copy[i],
-
             copy[j]
-
         ] = [
-
             copy[j],
-
             copy[i]
-
         ];
 
     }
@@ -824,12 +1389,40 @@ function shuffle(array) {
 }
 
 
-
 // ==========================================================
 // INICIAR PARTIDA
 // ==========================================================
 
-function startGame() {
+async function startGame() {
+
+    const loaded =
+        await loadPhotos();
+
+
+    if (
+        !loaded
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        PHOTOS.length <
+        ROUNDS_PER_GAME
+    ) {
+
+        alert(
+
+            `Se necesitan al menos ${ROUNDS_PER_GAME} fotografías.`
+
+        );
+
+
+        return;
+
+    }
 
 
     state.round =
@@ -852,17 +1445,25 @@ function startGame() {
         null;
 
 
+    state.selectedYear =
+        DEFAULT_YEAR;
+
+
     state.order =
+
         shuffle(
             PHOTOS
-        );
+        )
 
+        .slice(
+            0,
+            ROUNDS_PER_GAME
+        );
 
 
     $("#game-total-score")
         .textContent =
         "0 pts";
-
 
 
     closeHelp();
@@ -878,22 +1479,21 @@ function startGame() {
 }
 
 
-
 // ==========================================================
 // FOTO ACTUAL
 // ==========================================================
 
 function currentPhoto() {
 
-
     return (
+
         state.order[
             state.round
         ]
+
     );
 
 }
-
 
 
 // ==========================================================
@@ -902,10 +1502,15 @@ function currentPhoto() {
 
 function loadRound() {
 
-
     const item =
         currentPhoto();
 
+
+    if (!item) {
+
+        return;
+
+    }
 
 
     state.guess =
@@ -917,21 +1522,31 @@ function loadRound() {
 
 
     state.selectedYear =
-        1945;
+        DEFAULT_YEAR;
 
 
-
-    $("#round-image")
-        .src =
-        item.image;
+    photoPanX =
+        0;
 
 
+    photoPanY =
+        0;
 
-    $("#round-image")
-        .style
-        .transform =
-        "scale(1)";
 
+    photoDragging =
+        false;
+
+
+    const stage =
+        $("#photo-stage");
+
+
+    stage
+        .classList
+        .remove(
+            "zoomed",
+            "dragging"
+        );
 
 
     $("#zoom-value")
@@ -939,48 +1554,42 @@ function loadRound() {
         "100%";
 
 
-
     $("#photo-sequence")
         .textContent =
         `ARCHIVO #${item.id}`;
 
 
-
     $("#round-label")
         .textContent =
-        `RONDA ${state.round + 1} / ${state.order.length}`;
-
+        `RONDA ${state.round + 1} / ${ROUNDS_PER_GAME}`;
 
 
     $("#progress-fill")
         .style
         .width =
+
         `${(
             (
                 state.round + 1
             )
             /
-            state.order.length
+            ROUNDS_PER_GAME
         ) * 100}%`;
-
 
 
     $("#year-slider")
         .value =
-        1945;
-
+        DEFAULT_YEAR;
 
 
     $("#year-input")
         .value =
-        1945;
-
+        DEFAULT_YEAR;
 
 
     $("#location-status")
         .textContent =
         "SIN MARCAR";
-
 
 
     $("#location-status")
@@ -990,7 +1599,6 @@ function loadRound() {
         );
 
 
-
     $("#location-status")
         .classList
         .add(
@@ -998,20 +1606,16 @@ function loadRound() {
         );
 
 
-
     $("#submit-guess")
         .disabled =
         true;
-
 
 
     if (
         guessMarker
     ) {
 
-
         guessMarker.remove();
-
 
         guessMarker =
             null;
@@ -1019,55 +1623,159 @@ function loadRound() {
     }
 
 
+    const image =
+        $("#round-image");
+
+
+    const loader =
+        $("#photo-loader");
+
+
+    image
+        .classList
+        .remove(
+            "photo-ready"
+        );
+
+
+    image
+        .classList
+        .add(
+            "photo-loading"
+        );
+
+
+    loader
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    const displayUrl =
+        optimizedImageUrl(
+
+            item.image,
+
+            GAME_IMAGE_WIDTH
+
+        );
+
+
+    image.onload =
+        () => {
+
+            image
+                .classList
+                .remove(
+                    "photo-loading"
+                );
+
+
+            image
+                .classList
+                .add(
+                    "photo-ready"
+                );
+
+
+            loader
+                .classList
+                .add(
+                    "hidden"
+                );
+
+
+            applyPhotoTransform();
+
+
+            preloadNextPhoto();
+
+        };
+
+
+    image.onerror =
+        () => {
+
+            loader
+                .classList
+                .add(
+                    "hidden"
+                );
+
+
+            image
+                .classList
+                .remove(
+                    "photo-loading"
+                );
+
+
+            image
+                .classList
+                .add(
+                    "photo-ready"
+                );
+
+
+            console.error(
+                "No se pudo cargar:",
+                displayUrl
+            );
+
+        };
+
+
+    image.src =
+        displayUrl;
+
 
     if (
         map
     ) {
 
+        requestAnimationFrame(
+            () => {
 
-        requestAnimationFrame(() => {
+                map.invalidateSize({
 
+                    animate:
+                        false,
 
-            map.invalidateSize({
+                    pan:
+                        false
 
-                animate: false,
-
-                pan: false
-
-            });
-
-
-
-            map.setView(
-
-                [
-                    -38.5,
-                    -63.5
-                ],
-
-                4,
-
-                {
-                    animate: false
-                }
-
-            );
+                });
 
 
-        });
+                map.setView(
+
+                    ARGENTINA_CENTER,
+
+                    ARGENTINA_ZOOM,
+
+                    {
+
+                        animate:
+                            false
+
+                    }
+
+                );
+
+            }
+        );
 
     }
 
 }
 
 
-
 // ==========================================================
-// ESTADO DEL BOTÓN
+// BOTÓN
 // ==========================================================
 
 function updateSubmitState() {
-
 
     $("#submit-guess")
         .disabled =
@@ -1076,13 +1784,13 @@ function updateSubmitState() {
 }
 
 
-
 // ==========================================================
 // AÑO
 // ==========================================================
 
-function clampYear(value) {
-
+function clampYear(
+    value
+) {
 
     const number =
         parseInt(
@@ -1092,22 +1800,23 @@ function clampYear(value) {
 
 
     if (
-        Number.isNaN(number)
+        Number.isNaN(
+            number
+        )
     ) {
 
-
-        return 1945;
+        return DEFAULT_YEAR;
 
     }
 
 
     return Math.min(
 
-        2026,
+        MAX_YEAR,
 
         Math.max(
 
-            1860,
+            MIN_YEAR,
 
             number
 
@@ -1118,14 +1827,12 @@ function clampYear(value) {
 }
 
 
-
 $("#year-slider")
     .addEventListener(
 
         "input",
 
         event => {
-
 
             state.selectedYear =
                 clampYear(
@@ -1142,14 +1849,12 @@ $("#year-slider")
     );
 
 
-
 $("#year-input")
     .addEventListener(
 
         "input",
 
         event => {
-
 
             state.selectedYear =
                 clampYear(
@@ -1166,9 +1871,482 @@ $("#year-input")
     );
 
 
+$("#year-input")
+    .addEventListener(
+
+        "blur",
+
+        event => {
+
+            state.selectedYear =
+                clampYear(
+                    event.target.value
+                );
+
+
+            event.target.value =
+                state.selectedYear;
+
+
+            $("#year-slider")
+                .value =
+                state.selectedYear;
+
+        }
+
+    );
+
 
 // ==========================================================
-// DISTANCIA HAVERSINE
+// ZOOM
+// ==========================================================
+
+function clampPhotoPan() {
+
+    const stage =
+        $("#photo-stage");
+
+
+    if (
+        !stage ||
+        state.zoom <= 1
+    ) {
+
+        photoPanX =
+            0;
+
+
+        photoPanY =
+            0;
+
+
+        return;
+
+    }
+
+
+    const maxX =
+
+        (
+            stage.clientWidth *
+            (
+                state.zoom - 1
+            )
+        )
+
+        /
+
+        2;
+
+
+    const maxY =
+
+        (
+            stage.clientHeight *
+            (
+                state.zoom - 1
+            )
+        )
+
+        /
+
+        2;
+
+
+    photoPanX =
+
+        Math.max(
+
+            -maxX,
+
+            Math.min(
+                maxX,
+                photoPanX
+            )
+
+        );
+
+
+    photoPanY =
+
+        Math.max(
+
+            -maxY,
+
+            Math.min(
+                maxY,
+                photoPanY
+            )
+
+        );
+
+}
+
+
+// ==========================================================
+// TRANSFORMAR FOTO
+// ==========================================================
+
+function applyPhotoTransform() {
+
+    clampPhotoPan();
+
+
+    $("#round-image")
+        .style
+        .transform =
+
+        `translate3d(
+            ${photoPanX}px,
+            ${photoPanY}px,
+            0
+        )
+        scale(${state.zoom})`;
+
+
+    $("#zoom-value")
+        .textContent =
+
+        `${Math.round(
+            state.zoom *
+            100
+        )}%`;
+
+
+    const stage =
+        $("#photo-stage");
+
+
+    if (
+        state.zoom > 1
+    ) {
+
+        stage
+            .classList
+            .add(
+                "zoomed"
+            );
+
+    } else {
+
+        stage
+            .classList
+            .remove(
+                "zoomed"
+            );
+
+    }
+
+}
+
+
+// ==========================================================
+// CAMBIAR ZOOM
+// ==========================================================
+
+function setZoom(
+    value
+) {
+
+    state.zoom =
+
+        Math.min(
+
+            4,
+
+            Math.max(
+
+                1,
+
+                value
+
+            )
+
+        );
+
+
+    if (
+        state.zoom === 1
+    ) {
+
+        photoPanX =
+            0;
+
+
+        photoPanY =
+            0;
+
+    }
+
+
+    applyPhotoTransform();
+
+}
+
+
+// ==========================================================
+// RESET FOTO
+// ==========================================================
+
+function resetPhotoView() {
+
+    state.zoom =
+        1;
+
+
+    photoPanX =
+        0;
+
+
+    photoPanY =
+        0;
+
+
+    applyPhotoTransform();
+
+}
+
+
+// ==========================================================
+// BOTONES ZOOM
+// ==========================================================
+
+$("#zoom-in")
+    .addEventListener(
+
+        "click",
+
+        () => {
+
+            setZoom(
+                state.zoom +
+                .25
+            );
+
+        }
+
+    );
+
+
+$("#zoom-out")
+    .addEventListener(
+
+        "click",
+
+        () => {
+
+            setZoom(
+                state.zoom -
+                .25
+            );
+
+        }
+
+    );
+
+
+// ==========================================================
+// RUEDA
+// ==========================================================
+
+$("#photo-stage")
+    .addEventListener(
+
+        "wheel",
+
+        event => {
+
+            event.preventDefault();
+
+
+            if (
+                event.deltaY < 0
+            ) {
+
+                setZoom(
+                    state.zoom +
+                    .25
+                );
+
+            } else {
+
+                setZoom(
+                    state.zoom -
+                    .25
+                );
+
+            }
+
+        },
+
+        {
+
+            passive:
+                false
+
+        }
+
+    );
+
+
+// ==========================================================
+// ARRASTRAR FOTO
+// ==========================================================
+
+$("#photo-stage")
+    .addEventListener(
+
+        "pointerdown",
+
+        event => {
+
+            if (
+                state.zoom <= 1
+            ) {
+
+                return;
+
+            }
+
+
+            photoDragging =
+                true;
+
+
+            photoDragStartX =
+                event.clientX;
+
+
+            photoDragStartY =
+                event.clientY;
+
+
+            photoDragOriginX =
+                photoPanX;
+
+
+            photoDragOriginY =
+                photoPanY;
+
+
+            $("#photo-stage")
+                .classList
+                .add(
+                    "dragging"
+                );
+
+
+            $("#photo-stage")
+                .setPointerCapture(
+                    event.pointerId
+                );
+
+        }
+
+    );
+
+
+$("#photo-stage")
+    .addEventListener(
+
+        "pointermove",
+
+        event => {
+
+            if (
+                !photoDragging
+            ) {
+
+                return;
+
+            }
+
+
+            photoPanX =
+
+                photoDragOriginX
+
+                +
+
+                (
+                    event.clientX -
+                    photoDragStartX
+                );
+
+
+            photoPanY =
+
+                photoDragOriginY
+
+                +
+
+                (
+                    event.clientY -
+                    photoDragStartY
+                );
+
+
+            applyPhotoTransform();
+
+        }
+
+    );
+
+
+function stopPhotoDrag() {
+
+    photoDragging =
+        false;
+
+
+    $("#photo-stage")
+        .classList
+        .remove(
+            "dragging"
+        );
+
+}
+
+
+$("#photo-stage")
+    .addEventListener(
+
+        "pointerup",
+
+        stopPhotoDrag
+
+    );
+
+
+$("#photo-stage")
+    .addEventListener(
+
+        "pointercancel",
+
+        stopPhotoDrag
+
+    );
+
+
+$("#photo-stage")
+    .addEventListener(
+
+        "dblclick",
+
+        event => {
+
+            event.preventDefault();
+
+
+            resetPhotoView();
+
+        }
+
+    );
+
+
+// ==========================================================
+// HAVERSINE
 // ==========================================================
 
 function haversineKm(
@@ -1179,7 +2357,6 @@ function haversineKm(
     lon2
 
 ) {
-
 
     const R =
         6371.0088;
@@ -1192,7 +2369,6 @@ function haversineKm(
             180;
 
 
-
     const dLat =
         rad(
             lat2 - lat1
@@ -1203,7 +2379,6 @@ function haversineKm(
         rad(
             lon2 - lon1
         );
-
 
 
     const a =
@@ -1231,7 +2406,6 @@ function haversineKm(
         ) ** 2;
 
 
-
     return (
 
         R
@@ -1257,19 +2431,17 @@ function haversineKm(
 }
 
 
-
 // ==========================================================
-// PUNTAJE UBICACIÓN
+// PUNTAJE
 // ==========================================================
 
 function locationScore(
     distanceKm
 ) {
 
-
     const score =
 
-        2500
+        MAX_LOCATION_SCORE
 
         *
 
@@ -1285,26 +2457,22 @@ function locationScore(
 
         0,
 
-        Math.round(score)
+        Math.round(
+            score
+        )
 
     );
 
 }
 
 
-
-// ==========================================================
-// PUNTAJE FECHA
-// ==========================================================
-
 function dateScore(
     yearError
 ) {
 
-
     const score =
 
-        2500
+        MAX_YEAR_SCORE
 
         *
 
@@ -1320,20 +2488,20 @@ function dateScore(
 
         0,
 
-        Math.round(score)
+        Math.round(
+            score
+        )
 
     );
 
 }
 
 
-
 // ==========================================================
-// CONFIRMAR RESPUESTA
+// CONFIRMAR
 // ==========================================================
 
 function submitGuess() {
-
 
     if (
         !state.guess
@@ -1344,10 +2512,8 @@ function submitGuess() {
     }
 
 
-
     const item =
         currentPhoto();
-
 
 
     const distance =
@@ -1365,7 +2531,6 @@ function submitGuess() {
         );
 
 
-
     const yearError =
 
         Math.abs(
@@ -1379,12 +2544,10 @@ function submitGuess() {
         );
 
 
-
     const geoPoints =
         locationScore(
             distance
         );
-
 
 
     const yearPoints =
@@ -1393,21 +2556,16 @@ function submitGuess() {
         );
 
 
-
     const score =
-        geoPoints
-        +
+        geoPoints +
         yearPoints;
-
 
 
     state.total +=
         score;
 
 
-
     const data = {
-
 
         ...item,
 
@@ -1446,16 +2604,13 @@ function submitGuess() {
     };
 
 
-
     state.rounds.push(
         data
     );
 
 
-
     state.pendingResult =
         data;
-
 
 
     renderResultText(
@@ -1463,13 +2618,11 @@ function submitGuess() {
     );
 
 
-
     showScreen(
         "result"
     );
 
 }
-
 
 
 // ==========================================================
@@ -1480,17 +2633,21 @@ function renderResultText(
     data
 ) {
 
-
     $("#result-round-tag")
         .textContent =
         `RESULTADO · RONDA ${state.round + 1}`;
 
 
-
     $("#result-image")
         .src =
-        data.image;
 
+        optimizedImageUrl(
+
+            data.image,
+
+            GAME_IMAGE_WIDTH
+
+        );
 
 
     $("#result-place-caption")
@@ -1498,11 +2655,9 @@ function renderResultText(
         `${data.city}, ${data.province}`;
 
 
-
     $("#result-year-caption")
         .textContent =
         data.year;
-
 
 
     $("#result-place")
@@ -1510,48 +2665,66 @@ function renderResultText(
         data.city;
 
 
+    $("#result-province")
+        .textContent =
+        data.province;
+
+
+    $("#result-category")
+        .textContent =
+        data.category
+        ||
+        "HISTORIA";
+
 
     $("#result-description")
         .textContent =
-        data.description;
 
+        data.description
+
+        ||
+
+        "Fotografía argentina.";
 
 
     $("#location-points")
         .textContent =
+
         data.geoPoints
             .toLocaleString(
                 "es-AR"
             );
 
 
-
     $("#year-points")
         .textContent =
+
         data.yearPoints
             .toLocaleString(
                 "es-AR"
             );
 
 
-
     $("#round-score")
         .textContent =
+
         data.score
             .toLocaleString(
                 "es-AR"
             );
 
 
-
     $("#distance-result")
         .textContent =
-        `${formatDistance(data.distance)} de distancia`;
 
+        `${formatDistance(
+            data.distance
+        )} de distancia`;
 
 
     $("#year-error-result")
         .textContent =
+
         `${data.yearError} ${
             data.yearError === 1
                 ? "año"
@@ -1559,11 +2732,9 @@ function renderResultText(
         } de diferencia`;
 
 
-
     $("#your-year")
         .textContent =
         data.guessedYear;
-
 
 
     $("#correct-year")
@@ -1571,34 +2742,48 @@ function renderResultText(
         data.year;
 
 
+    const sourceLink =
+        $("#source-link");
 
-    $("#source-link")
-        .href =
-        data.source;
 
+    if (
+        data.source
+    ) {
+
+        sourceLink.href =
+            data.source;
+
+
+        sourceLink.style.display =
+            "block";
+
+    } else {
+
+        sourceLink.style.display =
+            "none";
+
+    }
 
 
     $("#game-total-score")
         .textContent =
-        `${state.total.toLocaleString("es-AR")} pts`;
 
+        `${state.total
+            .toLocaleString(
+                "es-AR"
+            )} pts`;
 
 
     if (
-
         state.round ===
-        state.order.length - 1
-
+        ROUNDS_PER_GAME - 1
     ) {
-
 
         $("#next-round")
             .innerHTML =
             `VER RESULTADO FINAL <span>→</span>`;
 
-
     } else {
-
 
         $("#next-round")
             .innerHTML =
@@ -1609,15 +2794,13 @@ function renderResultText(
 }
 
 
-
 // ==========================================================
-// RESULTADO EN MAPA
+// RESULTADO MAPA
 // ==========================================================
 
 function renderResultMap(
     data
 ) {
-
 
     if (
         !resultMap
@@ -1628,15 +2811,15 @@ function renderResultMap(
     }
 
 
-
     resultMap.invalidateSize({
 
-        animate: false,
+        animate:
+            false,
 
-        pan: false
+        pan:
+            false
 
     });
-
 
 
     if (
@@ -1651,7 +2834,6 @@ function renderResultMap(
     }
 
 
-
     if (
         resultAnswerMarker
     ) {
@@ -1662,7 +2844,6 @@ function renderResultMap(
             null;
 
     }
-
 
 
     if (
@@ -1677,7 +2858,6 @@ function renderResultMap(
     }
 
 
-
     const guessed = [
 
         data.guessLat,
@@ -1685,7 +2865,6 @@ function renderResultMap(
         data.guessLng
 
     ];
-
 
 
     const actual = [
@@ -1697,7 +2876,6 @@ function renderResultMap(
     ];
 
 
-
     resultGuessMarker =
 
         L.marker(
@@ -1705,8 +2883,10 @@ function renderResultMap(
             guessed,
 
             {
+
                 icon:
                     guessIcon
+
             }
 
         )
@@ -1720,7 +2900,6 @@ function renderResultMap(
         );
 
 
-
     resultAnswerMarker =
 
         L.marker(
@@ -1728,8 +2907,10 @@ function renderResultMap(
             actual,
 
             {
+
                 icon:
                     answerIcon
+
             }
 
         )
@@ -1743,17 +2924,13 @@ function renderResultMap(
         );
 
 
-
     resultLine =
 
         L.polyline(
 
             [
-
                 guessed,
-
                 actual
-
             ],
 
             {
@@ -1776,76 +2953,69 @@ function renderResultMap(
         );
 
 
+    requestAnimationFrame(
+        () => {
 
-    requestAnimationFrame(() => {
-
-
-        resultMap.invalidateSize({
-
-            animate: false,
-
-            pan: false
-
-        });
-
-
-
-        const bounds =
-
-            L.latLngBounds(
-
-                [
-
-                    guessed,
-
-                    actual
-
-                ]
-
-            )
-
-            .pad(
-                .45
-            );
-
-
-
-        resultMap.fitBounds(
-
-            bounds,
-
-            {
-
-                maxZoom:
-                    8,
+            resultMap.invalidateSize({
 
                 animate:
+                    false,
+
+                pan:
                     false
 
-            }
-
-        );
+            });
 
 
-    });
+            const bounds =
+
+                L.latLngBounds(
+
+                    [
+                        guessed,
+                        actual
+                    ]
+
+                )
+
+                .pad(
+                    .45
+                );
+
+
+            resultMap.fitBounds(
+
+                bounds,
+
+                {
+
+                    maxZoom:
+                        8,
+
+                    animate:
+                        false
+
+                }
+
+            );
+
+        }
+    );
 
 }
 
 
-
 // ==========================================================
-// FORMATO DISTANCIA
+// DISTANCIA
 // ==========================================================
 
 function formatDistance(
     km
 ) {
 
-
     if (
         km < 1
     ) {
-
 
         return (
 
@@ -1858,56 +3028,52 @@ function formatDistance(
     }
 
 
-
     if (
         km < 10
     ) {
-
 
         return (
 
             `${km
                 .toFixed(1)
-                .replace(".", ",")} km`
+                .replace(
+                    ".",
+                    ","
+                )} km`
 
         );
 
     }
 
 
-
     return (
 
-        `${Math.round(km)
-            .toLocaleString(
-                "es-AR"
-            )} km`
+        `${Math.round(
+            km
+        )
+        .toLocaleString(
+            "es-AR"
+        )} km`
 
     );
 
 }
 
 
-
 // ==========================================================
-// SIGUIENTE RONDA
+// SIGUIENTE
 // ==========================================================
 
 function nextRound() {
-
 
     state.pendingResult =
         null;
 
 
-
     if (
-
         state.round >=
-        state.order.length - 1
-
+        ROUNDS_PER_GAME - 1
     ) {
-
 
         renderFinal();
 
@@ -1920,7 +3086,6 @@ function nextRound() {
         return;
 
     }
-
 
 
     state.round++;
@@ -1936,65 +3101,69 @@ function nextRound() {
 }
 
 
-
 // ==========================================================
-// RESULTADO FINAL
+// FINAL
 // ==========================================================
 
 function renderFinal() {
 
-
     $("#final-score")
         .textContent =
+
         state.total
             .toLocaleString(
                 "es-AR"
             );
 
 
+    $("#final-max-score")
+        .textContent =
+
+        `/ ${MAX_GAME_SCORE
+            .toLocaleString(
+                "es-AR"
+            )}`;
+
 
     const ratio =
         state.total /
-        25000;
-
+        MAX_GAME_SCORE;
 
 
     let rank =
         "EXPLORADOR";
 
 
-
     if (
-        ratio >= .9
+        ratio >= .90
     ) {
-
 
         rank =
             "CRONISTA NACIONAL";
 
+    }
 
-    } else if (
+    else if (
         ratio >= .75
     ) {
-
 
         rank =
             "ARCHIVISTA EXPERTO";
 
+    }
 
-    } else if (
+    else if (
         ratio >= .55
     ) {
-
 
         rank =
             "VIAJERO DEL TIEMPO";
 
+    }
 
-    } else if (
+    else if (
         ratio >= .35
     ) {
-
 
         rank =
             "BUEN OBSERVADOR";
@@ -2002,29 +3171,41 @@ function renderFinal() {
     }
 
 
-
     $("#final-rank")
         .textContent =
         rank;
 
 
-
     $("#round-summary")
         .innerHTML =
+
         state.rounds
+
             .map(
 
-                (round,index) => `
+                (
+                    round,
+                    index
+                ) => `
 
                     <div class="summary-item">
 
                         <span>
-                            RONDA ${index + 1}
+
+                            RONDA ${
+                                index + 1
+                            }
+
                         </span>
 
                         <strong>
 
-                            ${round.score.toLocaleString("es-AR")}
+                            ${
+                                round.score
+                                    .toLocaleString(
+                                        "es-AR"
+                                    )
+                            }
 
                         </strong>
 
@@ -2045,7 +3226,6 @@ function renderFinal() {
             .join("");
 
 
-
     const oldBest =
 
         parseInt(
@@ -2063,12 +3243,10 @@ function renderFinal() {
         );
 
 
-
     if (
         state.total >
         oldBest
     ) {
-
 
         localStorage.setItem(
 
@@ -2083,19 +3261,16 @@ function renderFinal() {
     }
 
 
-
     updateBestScore();
 
 }
 
 
-
 // ==========================================================
-// MEJOR PUNTAJE
+// MEJOR
 // ==========================================================
 
 function updateBestScore() {
-
 
     const best =
 
@@ -2114,9 +3289,9 @@ function updateBestScore() {
         );
 
 
-
     $("#best-score-home")
         .textContent =
+
         best
             .toLocaleString(
                 "es-AR"
@@ -2125,100 +3300,90 @@ function updateBestScore() {
 }
 
 
-
 // ==========================================================
 // COMPARTIR
 // ==========================================================
 
 function resultShareText() {
 
-
     const icons =
 
         state.rounds
-            .map(round => {
+
+            .map(
+                round => {
+
+                    const percentage =
+                        round.score /
+                        MAX_ROUND_SCORE;
 
 
-                const percentage =
-                    round.score /
-                    5000;
+                    if (
+                        percentage >= .85
+                    ) {
+
+                        return "🟦";
+
+                    }
 
 
+                    if (
+                        percentage >= .65
+                    ) {
 
-                if (
-                    percentage >= .85
-                ) {
+                        return "🟩";
 
-                    return "🟦";
+                    }
+
+
+                    if (
+                        percentage >= .45
+                    ) {
+
+                        return "🟨";
+
+                    }
+
+
+                    if (
+                        percentage >= .25
+                    ) {
+
+                        return "🟧";
+
+                    }
+
+
+                    return "🟥";
 
                 }
-
-
-
-                if (
-                    percentage >= .65
-                ) {
-
-                    return "🟩";
-
-                }
-
-
-
-                if (
-                    percentage >= .45
-                ) {
-
-                    return "🟨";
-
-                }
-
-
-
-                if (
-                    percentage >= .25
-                ) {
-
-                    return "🟧";
-
-                }
-
-
-
-                return "🟥";
-
-            })
+            )
 
             .join("");
 
 
-
     return `🇦🇷 ARGENTINA EN EL TIEMPO
 
-${state.total.toLocaleString("es-AR")} / 25.000
+${state.total.toLocaleString("es-AR")} / ${MAX_GAME_SCORE.toLocaleString("es-AR")}
 
 ${icons}
 
-5 rondas`;
+${ROUNDS_PER_GAME} rondas`;
 
 }
 
 
-
 // ==========================================================
-// COPIAR RESULTADO
+// COPIAR
 // ==========================================================
 
 async function copyResult() {
-
 
     const text =
         resultShareText();
 
 
-
     try {
-
 
         await navigator
             .clipboard
@@ -2231,9 +3396,9 @@ async function copyResult() {
             .textContent =
             "Resultado copiado.";
 
+    }
 
-    } catch {
-
+    catch {
 
         $("#copy-message")
             .textContent =
@@ -2244,13 +3409,11 @@ async function copyResult() {
 }
 
 
-
 // ==========================================================
-// MODAL AYUDA
+// AYUDA
 // ==========================================================
 
 function openHelp() {
-
 
     $("#help-modal")
         .classList
@@ -2261,9 +3424,7 @@ function openHelp() {
 }
 
 
-
 function closeHelp() {
-
 
     $("#help-modal")
         .classList
@@ -2274,13 +3435,11 @@ function closeHelp() {
 }
 
 
-
 // ==========================================================
-// VOLVER AL INICIO
+// VOLVER
 // ==========================================================
 
 function goHome() {
-
 
     closeHelp();
 
@@ -2295,91 +3454,8 @@ function goHome() {
 }
 
 
-
 // ==========================================================
-// ZOOM FOTO
-// ==========================================================
-
-function setZoom(
-    value
-) {
-
-
-    state.zoom =
-
-        Math.min(
-
-            2.5,
-
-            Math.max(
-
-                1,
-
-                value
-
-            )
-
-        );
-
-
-
-    $("#round-image")
-        .style
-        .transform =
-        `scale(${state.zoom})`;
-
-
-
-    $("#zoom-value")
-        .textContent =
-        `${Math.round(
-            state.zoom * 100
-        )}%`;
-
-}
-
-
-
-// ==========================================================
-// EVENTOS ZOOM
-// ==========================================================
-
-$("#zoom-in")
-    .addEventListener(
-
-        "click",
-
-        () => {
-
-            setZoom(
-                state.zoom + .2
-            );
-
-        }
-
-    );
-
-
-
-$("#zoom-out")
-    .addEventListener(
-
-        "click",
-
-        () => {
-
-            setZoom(
-                state.zoom - .2
-            );
-
-        }
-
-    );
-
-
-
-// ==========================================================
-// FOTO COMPLETA
+// FOTO GRANDE
 // ==========================================================
 
 $("#fullscreen-photo")
@@ -2389,11 +3465,27 @@ $("#fullscreen-photo")
 
         () => {
 
+            const item =
+                currentPhoto();
+
+
+            if (!item) {
+
+                return;
+
+            }
+
 
             $("#photo-modal-image")
                 .src =
-                $("#round-image").src;
 
+                optimizedImageUrl(
+
+                    item.image,
+
+                    FULLSCREEN_IMAGE_WIDTH
+
+                );
 
 
             $("#photo-modal")
@@ -2407,9 +3499,7 @@ $("#fullscreen-photo")
     );
 
 
-
 function closePhoto() {
-
 
     $("#photo-modal")
         .classList
@@ -2420,9 +3510,8 @@ function closePhoto() {
 }
 
 
-
 // ==========================================================
-// BOTONES PRINCIPALES
+// BOTONES
 // ==========================================================
 
 $("#start-game")
@@ -2435,7 +3524,6 @@ $("#start-game")
     );
 
 
-
 $("#modal-play")
     .addEventListener(
 
@@ -2444,7 +3532,6 @@ $("#modal-play")
         startGame
 
     );
-
 
 
 $("#show-how")
@@ -2457,7 +3544,6 @@ $("#show-how")
     );
 
 
-
 $("#open-help")
     .addEventListener(
 
@@ -2466,7 +3552,6 @@ $("#open-help")
         openHelp
 
     );
-
 
 
 $("#submit-guess")
@@ -2479,7 +3564,6 @@ $("#submit-guess")
     );
 
 
-
 $("#next-round")
     .addEventListener(
 
@@ -2488,7 +3572,6 @@ $("#next-round")
         nextRound
 
     );
-
 
 
 $("#play-again")
@@ -2501,7 +3584,6 @@ $("#play-again")
     );
 
 
-
 $("#copy-result")
     .addEventListener(
 
@@ -2510,7 +3592,6 @@ $("#copy-result")
         copyResult
 
     );
-
 
 
 $("#quit-game")
@@ -2523,16 +3604,10 @@ $("#quit-game")
     );
 
 
-
-// ==========================================================
-// BOTONES HOME
-// ==========================================================
-
 $$("[data-go-home]")
     .forEach(
 
         button => {
-
 
             button.addEventListener(
 
@@ -2547,12 +3622,10 @@ $$("[data-go-home]")
     );
 
 
-
 $$("[data-close-modal]")
     .forEach(
 
         element => {
-
 
             element.addEventListener(
 
@@ -2567,12 +3640,10 @@ $$("[data-close-modal]")
     );
 
 
-
 $$("[data-close-photo]")
     .forEach(
 
         element => {
-
 
             element.addEventListener(
 
@@ -2587,7 +3658,6 @@ $$("[data-close-photo]")
     );
 
 
-
 // ==========================================================
 // MENÚ
 // ==========================================================
@@ -2597,13 +3667,11 @@ $$("[data-home-tab]")
 
         button => {
 
-
             button.addEventListener(
 
                 "click",
 
                 () => {
-
 
                     if (
 
@@ -2612,11 +3680,9 @@ $$("[data-home-tab]")
 
                     ) {
 
-
                         openHelp();
 
                     }
-
 
 
                     if (
@@ -2626,10 +3692,9 @@ $$("[data-home-tab]")
 
                     ) {
 
-
                         alert(
 
-                            "Próximamente: archivo histórico por provincia, ciudad, década y categoría."
+                            "Próximamente: archivo, provincias, décadas y categorías."
 
                         );
 
@@ -2644,7 +3709,6 @@ $$("[data-home-tab]")
     );
 
 
-
 // ==========================================================
 // ESC
 // ==========================================================
@@ -2655,15 +3719,12 @@ document.addEventListener(
 
     event => {
 
-
         if (
             event.key ===
             "Escape"
         ) {
 
-
             closeHelp();
-
 
             closePhoto();
 
@@ -2674,9 +3735,8 @@ document.addEventListener(
 );
 
 
-
 // ==========================================================
-// REDIMENSIONAMIENTO DEL NAVEGADOR
+// RESIZE
 // ==========================================================
 
 window.addEventListener(
@@ -2687,53 +3747,80 @@ window.addEventListener(
 
 
         if (
-            map
+            homePreviewMap
         ) {
 
+            requestAnimationFrame(
+                () => {
 
-            requestAnimationFrame(() => {
+                    homePreviewMap
+                        .invalidateSize(
+                            false
+                        );
 
-
-                map.invalidateSize({
-
-                    animate: false,
-
-                    pan: false
-
-                });
-
-
-            });
+                }
+            );
 
         }
 
+
+        if (
+            map
+        ) {
+
+            requestAnimationFrame(
+                () => {
+
+                    map.invalidateSize({
+
+                        animate:
+                            false,
+
+                        pan:
+                            false
+
+                    });
+
+                }
+            );
+
+        }
 
 
         if (
             resultMap
         ) {
 
+            requestAnimationFrame(
+                () => {
 
-            requestAnimationFrame(() => {
+                    resultMap.invalidateSize({
+
+                        animate:
+                            false,
+
+                        pan:
+                            false
+
+                    });
+
+                }
+            );
+
+        }
 
 
-                resultMap.invalidateSize({
+        if (
+            state.zoom > 1
+        ) {
 
-                    animate: false,
-
-                    pan: false
-
-                });
-
-
-            });
+            applyPhotoTransform();
 
         }
 
     }
 
 );
-
 
 
 // ==========================================================
@@ -2744,21 +3831,22 @@ window.addEventListener(
 
     "load",
 
-    () => {
-
-
-        /*
-        MUY IMPORTANTE:
-
-        No iniciamos Leaflet aquí.
-
-        El mapa se crea solamente
-        cuando la pantalla del juego
-        está visible.
-        */
+    async () => {
 
 
         updateBestScore();
+
+
+        await loadPhotos();
+
+
+        /*
+        La portada está visible,
+        así que ahora sí podemos
+        crear su mapa.
+        */
+
+        initHomePreviewMap();
 
     }
 

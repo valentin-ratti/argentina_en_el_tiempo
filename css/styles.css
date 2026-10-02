@@ -6,33 +6,28 @@
 :root {
 
     --bg: #071527;
-
     --bg2: #0b1d32;
-
     --panel: #10243b;
 
     --line: rgba(255,255,255,.13);
 
     --text: #f3f7fb;
-
     --muted: #8ea6bc;
 
     --sky: #78c8f2;
-
     --sky2: #a8ddf7;
 
     --sun: #f6c445;
 
     --success: #65d69d;
-
     --danger: #ff7c7c;
 
 }
 
 
-/* ========================================= */
-/* RESET                                     */
-/* ========================================= */
+/* ======================================================== */
+/* RESET                                                    */
+/* ======================================================== */
 
 * {
 
@@ -54,7 +49,10 @@ body {
 
     color: var(--text);
 
-    font-family: Inter, Arial, sans-serif;
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
 
 }
 
@@ -99,18 +97,18 @@ button {
 }
 
 
-/* ========================================= */
-/* HEADER GENERAL                            */
-/* ========================================= */
+/* ======================================================== */
+/* HEADER                                                   */
+/* ======================================================== */
 
 .topbar,
 .game-header,
 .result-header,
 .final-top {
 
-    height: 72px;
-
     width: 100%;
+
+    height: 72px;
 
     display: flex;
 
@@ -118,11 +116,16 @@ button {
 
     justify-content: space-between;
 
-    padding: 0 4vw;
+    padding:
+        0
+        4vw;
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid
+        var(--line);
 
-    background: #071527;
+    background:
+        #071527;
 
     position: relative;
 
@@ -184,7 +187,9 @@ button {
 
     display: block;
 
-    font-family: "Archivo Black", sans-serif;
+    font-family:
+        "Archivo Black",
+        sans-serif;
 
     font-size: 15px;
 
@@ -203,7 +208,9 @@ button {
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono", monospace;
+    font-family:
+        "IBM Plex Mono",
+        monospace;
 
     font-size: 9px;
 
@@ -286,34 +293,46 @@ button {
 
     align-items: center;
 
-    gap: 15px;
+    gap: 16px;
 
 }
 
 
-.best-score {
+.best-score,
+.photo-counter {
 
     text-align: right;
 
 }
 
 
-.best-score span {
+.best-score span,
+.photo-counter span {
 
     display: block;
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
 }
 
 
-.best-score strong {
+.best-score strong,
+.photo-counter strong {
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
+
+}
+
+
+.photo-counter strong {
+
+    color: var(--sky);
 
 }
 
@@ -324,7 +343,9 @@ button {
 
     height: 35px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     border-radius: 50%;
 
@@ -337,19 +358,26 @@ button {
 }
 
 
-/* ========================================= */
-/* HOME                                      */
-/* ========================================= */
+/* ======================================================== */
+/* HOME                                                     */
+/* ======================================================== */
 
 .home-main {
 
-    min-height: calc(100vh - 82px);
+    min-height:
+        calc(
+            100vh - 82px
+        );
 
-    padding: 7vh 7vw;
+    padding:
+        7vh
+        7vw;
 
     display: grid;
 
-    grid-template-columns: minmax(0,1fr) minmax(400px,.8fr);
+    grid-template-columns:
+        minmax(0,1fr)
+        minmax(400px,.8fr);
 
     gap: 7vw;
 
@@ -368,7 +396,8 @@ button {
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 10px;
 
@@ -392,11 +421,18 @@ button {
 
 .hero-copy h1 {
 
-    margin: 25px 0;
+    margin:
+        25px 0;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
-    font-size: clamp(46px,5vw,82px);
+    font-size:
+        clamp(
+            46px,
+            5vw,
+            82px
+        );
 
     line-height: .94;
 
@@ -416,7 +452,7 @@ button {
 
 .hero-copy > p {
 
-    max-width: 620px;
+    max-width: 650px;
 
     margin-bottom: 30px;
 
@@ -443,7 +479,9 @@ button {
 
     min-height: 46px;
 
-    padding: 0 22px;
+    padding:
+        0
+        22px;
 
     border-radius: 4px;
 
@@ -483,7 +521,9 @@ button {
 
 .secondary-button {
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: none;
 
@@ -505,7 +545,9 @@ button {
 
     margin-top: 40px;
 
-    border-top: 1px solid var(--line);
+    border-top:
+        1px solid
+        var(--line);
 
 }
 
@@ -514,11 +556,17 @@ button {
 
     min-width: 120px;
 
-    padding: 16px 25px 0 0;
+    padding:
+        16px
+        25px
+        0
+        0;
 
     margin-right: 25px;
 
-    border-right: 1px solid var(--line);
+    border-right:
+        1px solid
+        var(--line);
 
 }
 
@@ -534,7 +582,8 @@ button {
 
     display: block;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
 }
 
@@ -554,9 +603,9 @@ button {
 }
 
 
-/* ========================================= */
-/* PREVIEW                                   */
-/* ========================================= */
+/* ======================================================== */
+/* PREVIEW                                                  */
+/* ======================================================== */
 
 .hero-visual {
 
@@ -573,12 +622,20 @@ button {
 
     overflow: hidden;
 
-    border: 1px solid rgba(255,255,255,.16);
+    border:
+        1px solid
+        rgba(255,255,255,.16);
 
-    box-shadow: 0 25px 70px rgba(0,0,0,.4);
+    box-shadow:
+        0
+        25px
+        70px
+        rgba(0,0,0,.4);
 
 }
 
+
+/* FOTO */
 
 .preview-photo {
 
@@ -592,7 +649,10 @@ button {
 
     background: #000;
 
-    transform: rotate(-2deg);
+    transform:
+        rotate(-2deg);
+
+    z-index: 1;
 
 }
 
@@ -605,7 +665,8 @@ button {
 
     object-fit: cover;
 
-    filter: grayscale(1);
+    filter:
+        grayscale(1);
 
 }
 
@@ -614,22 +675,30 @@ button {
 
     position: absolute;
 
-    z-index: 2;
+    z-index: 20;
 
     left: 12px;
 
     top: 12px;
 
-    padding: 7px 9px;
+    padding:
+        7px
+        9px;
 
-    background: rgba(7,21,39,.9);
+    background:
+        rgba(7,21,39,.9);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
 }
 
+
+/* ======================================================== */
+/* MINI MAPA REAL PORTADA                                   */
+/* ======================================================== */
 
 .preview-map {
 
@@ -637,99 +706,127 @@ button {
 
     bottom: 8%;
 
-    width: 55%;
+    width: 58%;
 
-    height: 52%;
+    height: 54%;
 
     background: #dce4e7;
 
-    transform: rotate(3deg);
+    transform:
+        rotate(3deg);
+
+    z-index: 5;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.22);
+
+    box-shadow:
+        0
+        25px
+        70px
+        rgba(0,0,0,.45);
 
 }
 
 
-.fake-map-grid {
+#home-preview-map {
 
     position: absolute;
 
     inset: 0;
 
-    background-image:
-        linear-gradient(
-            rgba(0,0,0,.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0,0,0,.08) 1px,
-            transparent 1px
-        );
+    width: 100%;
 
-    background-size: 28px 28px;
+    height: 100%;
+
+    background: #dce4e7;
+
+    z-index: 1;
 
 }
 
 
-.argentina-word {
+#home-preview-map img {
+
+    max-width:
+        none !important;
+
+    max-height:
+        none !important;
+
+}
+
+
+.preview-map-label {
 
     position: absolute;
 
-    inset: 0;
+    left: 12px;
 
-    display: grid;
+    top: 12px;
 
-    place-items: center;
+    z-index: 900;
 
-    color: rgba(0,0,0,.25);
+    padding:
+        8px
+        10px;
 
-    font-family: "Archivo Black";
+    background:
+        rgba(7,21,39,.90);
 
-}
-
-
-.fake-pin {
-
-    position: absolute;
-
-    width: 18px;
-
-    height: 18px;
-
-    border-radius: 50%;
-
-    background: var(--sky);
-
-    border: 4px solid white;
+    pointer-events: none;
 
 }
 
 
-.pin-one {
+.preview-map-label span {
 
-    left: 63%;
+    display: block;
 
-    top: 25%;
+    color: #8ea6bc;
+
+    font-family:
+        "IBM Plex Mono",
+        monospace;
+
+    font-size: 7px;
+
+    letter-spacing: .12em;
+
+}
+
+
+.preview-map-label strong {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #78c8f2;
+
+    font-family:
+        "Archivo Black",
+        sans-serif;
+
+    font-size: 11px;
 
 }
 
 
-.pin-two {
+#home-preview-map .leaflet-control-attribution {
 
-    left: 45%;
+    font-size: 6px;
 
-    top: 48%;
-
-}
-
-
-.pin-three {
-
-    left: 60%;
-
-    top: 70%;
+    background:
+        rgba(255,255,255,.78);
 
 }
 
+
+/* AÑO */
 
 .preview-year {
 
@@ -739,7 +836,7 @@ button {
 
     top: 6%;
 
-    z-index: 4;
+    z-index: 10;
 
     width: 180px;
 
@@ -749,14 +846,19 @@ button {
 
     color: #10233a;
 
-    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    box-shadow:
+        0
+        20px
+        50px
+        rgba(0,0,0,.35);
 
 }
 
 
 .preview-year span {
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -769,7 +871,8 @@ button {
 
     display: block;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 40px;
 
@@ -780,7 +883,8 @@ button {
 
     height: 4px;
 
-    background: rgba(0,0,0,.2);
+    background:
+        rgba(0,0,0,.2);
 
 }
 
@@ -795,7 +899,8 @@ button {
 
     margin-left: 45%;
 
-    transform: translateY(-4px);
+    transform:
+        translateY(-4px);
 
     border-radius: 50%;
 
@@ -804,19 +909,24 @@ button {
 }
 
 
-/* ========================================= */
-/* HOME FEATURES                             */
-/* ========================================= */
+/* ======================================================== */
+/* FEATURES                                                 */
+/* ======================================================== */
 
 .feature-band {
 
     display: grid;
 
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns:
+        repeat(4,1fr);
 
-    border-top: 1px solid var(--line);
+    border-top:
+        1px solid
+        var(--line);
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid
+        var(--line);
 
 }
 
@@ -825,9 +935,13 @@ button {
 
     min-height: 170px;
 
-    padding: 25px 3vw;
+    padding:
+        25px
+        3vw;
 
-    border-right: 1px solid var(--line);
+    border-right:
+        1px solid
+        var(--line);
 
 }
 
@@ -836,7 +950,8 @@ button {
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
@@ -845,7 +960,10 @@ button {
 
 .feature-band h3 {
 
-    margin: 18px 0 8px;
+    margin:
+        18px
+        0
+        8px;
 
     font-size: 13px;
 
@@ -867,7 +985,9 @@ button {
 
     min-height: 65px;
 
-    padding: 0 4vw;
+    padding:
+        0
+        4vw;
 
     display: flex;
 
@@ -877,20 +997,25 @@ button {
 
     color: #668198;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
 }
 
 
-/* ========================================= */
-/* GAME                                      */
-/* ========================================= */
+/* ======================================================== */
+/* GAME                                                     */
+/* ======================================================== */
 
 .round-progress {
 
-    width: min(480px,40vw);
+    width:
+        min(
+            480px,
+            40vw
+        );
 
 }
 
@@ -905,7 +1030,8 @@ button {
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
@@ -923,7 +1049,8 @@ button {
 
     height: 3px;
 
-    background: rgba(255,255,255,.1);
+    background:
+        rgba(255,255,255,.1);
 
 }
 
@@ -936,39 +1063,42 @@ button {
 
     background: var(--sky);
 
-    transition: width .3s;
+    transition:
+        width .3s;
 
 }
 
 
 .quit-button {
 
-    padding: 8px 14px;
+    padding:
+        8px
+        14px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: none;
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
 }
 
 
-/*
-=======================================================
-ESTA PARTE ES IMPORTANTE PARA EL MAPA
-=======================================================
-*/
-
 .game-layout {
 
     width: 100%;
 
-    height: calc(100vh - 72px);
+    height:
+        calc(
+            100vh - 72px
+        );
 
     display: grid;
 
@@ -995,18 +1125,23 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     background: #030914;
 
-    border-right: 1px solid var(--line);
+    border-right:
+        1px solid
+        var(--line);
 
 }
 
 
 .photo-toolbar {
 
-    flex: 0 0 48px;
+    flex:
+        0 0 48px;
 
     height: 48px;
 
-    padding: 0 18px;
+    padding:
+        0
+        18px;
 
     display: flex;
 
@@ -1014,11 +1149,14 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     justify-content: space-between;
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid
+        var(--line);
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
@@ -1059,11 +1197,24 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     height: 28px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: none;
 
     color: white;
+
+}
+
+
+.toolbar-actions button:hover {
+
+    border-color:
+        var(--sky);
+
+    color:
+        var(--sky);
 
 }
 
@@ -1076,6 +1227,10 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
 }
 
+
+/* ======================================================== */
+/* FOTO                                                     */
+/* ======================================================== */
 
 .photo-stage {
 
@@ -1093,6 +1248,26 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     justify-content: center;
 
+    background: #030914;
+
+    touch-action: none;
+
+    cursor: zoom-in;
+
+}
+
+
+.photo-stage.zoomed {
+
+    cursor: grab;
+
+}
+
+
+.photo-stage.dragging {
+
+    cursor: grabbing;
+
 }
 
 
@@ -1104,11 +1279,36 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     object-fit: contain;
 
-    transform-origin: center center;
-
-    transition: transform .15s;
+    transform-origin:
+        center center;
 
     user-select: none;
+
+    pointer-events: none;
+
+    -webkit-user-drag: none;
+
+    will-change:
+        transform,
+        opacity;
+
+    transition:
+        transform .1s ease,
+        opacity .25s ease;
+
+}
+
+
+#round-image.photo-loading {
+
+    opacity: 0;
+
+}
+
+
+#round-image.photo-ready {
+
+    opacity: 1;
 
 }
 
@@ -1121,13 +1321,22 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     bottom: 16px;
 
-    max-width: 300px;
+    z-index: 20;
 
-    padding: 10px 13px;
+    max-width: 330px;
 
-    border-left: 3px solid var(--sky);
+    padding:
+        10px
+        13px;
 
-    background: rgba(4,12,22,.85);
+    border-left:
+        3px solid
+        var(--sky);
+
+    background:
+        rgba(4,12,22,.86);
+
+    pointer-events: none;
 
 }
 
@@ -1136,7 +1345,8 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1145,7 +1355,10 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
 .photo-tip p {
 
-    margin: 4px 0 0;
+    margin:
+        4px
+        0
+        0;
 
     color: #b5c4d0;
 
@@ -1154,9 +1367,98 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 }
 
 
-/* ========================================= */
-/* PANEL DERECHO                             */
-/* ========================================= */
+/* LOADER */
+
+.photo-loader {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 15;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    background: #030914;
+
+    opacity: 1;
+
+    transition:
+        opacity .25s;
+
+}
+
+
+.photo-loader.hidden {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+
+.photo-loader span {
+
+    color: var(--muted);
+
+    font-family:
+        "IBM Plex Mono";
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+
+}
+
+
+.photo-spinner {
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    border:
+        3px solid
+        rgba(255,255,255,.12);
+
+    border-top-color:
+        var(--sky);
+
+    animation:
+        photo-spin
+        .8s
+        linear
+        infinite;
+
+}
+
+
+@keyframes photo-spin {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* ======================================================== */
+/* PANEL DERECHO                                            */
+/* ======================================================== */
 
 .guess-panel {
 
@@ -1189,9 +1491,12 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     margin-bottom: 14px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
-    background: rgba(255,255,255,.018);
+    background:
+        rgba(255,255,255,.018);
 
 }
 
@@ -1243,11 +1548,13 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     place-items: center;
 
-    background: rgba(120,200,242,.12);
+    background:
+        rgba(120,200,242,.12);
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1258,7 +1565,8 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
     margin: 0;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 14px;
 
@@ -1267,7 +1575,10 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
 .section-title p {
 
-    margin: 4px 0 0;
+    margin:
+        4px
+        0
+        0;
 
     color: var(--muted);
 
@@ -1278,13 +1589,18 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
 .status-pill {
 
-    padding: 5px 7px;
+    padding:
+        5px
+        7px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 7px;
 
@@ -1293,16 +1609,18 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 
 .status-pill.ready {
 
-    border-color: var(--success);
+    border-color:
+        var(--success);
 
-    color: var(--success);
+    color:
+        var(--success);
 
 }
 
 
-/* ========================================= */
-/* MAPA                                      */
-/* ========================================= */
+/* ======================================================== */
+/* MAPAS LEAFLET                                            */
+/* ======================================================== */
 
 #map {
 
@@ -1329,12 +1647,6 @@ ESTA PARTE ES IMPORTANTE PARA EL MAPA
 }
 
 
-/*
-IMPORTANTE:
-Leaflet maneja el tamaño de los tiles.
-No debemos aplicar max-width:100%.
-*/
-
 .leaflet-container {
 
     width: 100%;
@@ -1345,81 +1657,21 @@ No debemos aplicar max-width:100%.
 
     padding: 0;
 
-    font-family: Inter, sans-serif;
+    font-family:
+        Inter,
+        sans-serif;
 
 }
 
 
-.leaflet-container img {
-
-    max-width: none !important;
-
-    max-height: none !important;
-
-}
-
-
+.leaflet-container img,
 .leaflet-tile {
 
-    max-width: none !important;
+    max-width:
+        none !important;
 
-    max-height: none !important;
-
-}
-
-
-.leaflet-pane {
-
-    z-index: auto;
-
-}
-
-
-.leaflet-map-pane {
-
-    z-index: 400;
-
-}
-
-
-.leaflet-tile-pane {
-
-    z-index: 200;
-
-}
-
-
-.leaflet-overlay-pane {
-
-    z-index: 400;
-
-}
-
-
-.leaflet-marker-pane {
-
-    z-index: 600;
-
-}
-
-
-.leaflet-tooltip-pane {
-
-    z-index: 650;
-
-}
-
-
-.leaflet-popup-pane {
-
-    z-index: 700;
-
-}
-
-
-.leaflet-control {
-
-    z-index: 800;
+    max-height:
+        none !important;
 
 }
 
@@ -1441,9 +1693,9 @@ No debemos aplicar max-width:100%.
 }
 
 
-/* ========================================= */
-/* YEAR                                      */
-/* ========================================= */
+/* ======================================================== */
+/* AÑO                                                      */
+/* ======================================================== */
 
 .year-input-wrap input {
 
@@ -1451,7 +1703,9 @@ No debemos aplicar max-width:100%.
 
     padding: 7px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: #071527;
 
@@ -1459,7 +1713,8 @@ No debemos aplicar max-width:100%.
 
     text-align: center;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 17px;
 
@@ -1472,9 +1727,13 @@ No debemos aplicar max-width:100%.
 
     width: 100%;
 
-    margin: 12px 0 5px;
+    margin:
+        12px
+        0
+        5px;
 
-    accent-color: var(--sky);
+    accent-color:
+        var(--sky);
 
 }
 
@@ -1487,7 +1746,8 @@ No debemos aplicar max-width:100%.
 
     color: #58728a;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 7px;
 
@@ -1503,15 +1763,16 @@ No debemos aplicar max-width:100%.
 }
 
 
-/* ========================================= */
-/* RESULTADO                                 */
-/* ========================================= */
+/* ======================================================== */
+/* RESULTADO                                                */
+/* ======================================================== */
 
 .result-round-tag {
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
@@ -1520,7 +1781,10 @@ No debemos aplicar max-width:100%.
 
 .result-layout {
 
-    min-height: calc(100vh - 72px);
+    min-height:
+        calc(
+            100vh - 72px
+        );
 
     display: grid;
 
@@ -1584,7 +1848,9 @@ No debemos aplicar max-width:100%.
 
     bottom: 12px;
 
-    padding: 8px 10px;
+    padding:
+        8px
+        10px;
 
     display: flex;
 
@@ -1592,9 +1858,11 @@ No debemos aplicar max-width:100%.
 
     align-items: center;
 
-    background: rgba(7,21,39,.92);
+    background:
+        rgba(7,21,39,.92);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
@@ -1609,8 +1877,6 @@ No debemos aplicar max-width:100%.
 
 }
 
-
-/* MAPA RESULTADO */
 
 #result-map {
 
@@ -1633,7 +1899,9 @@ No debemos aplicar max-width:100%.
 
 .result-info {
 
-    padding: 5vh 3vw;
+    padding:
+        5vh
+        3vw;
 
     overflow-y: auto;
 
@@ -1646,7 +1914,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1657,11 +1926,56 @@ No debemos aplicar max-width:100%.
 
 .result-info h1 {
 
-    margin: 12px 0;
+    margin:
+        12px
+        0
+        7px;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
-    font-size: clamp(32px,4vw,58px);
+    font-size:
+        clamp(
+            32px,
+            4vw,
+            58px
+        );
+
+    text-transform: uppercase;
+
+}
+
+
+.result-metadata {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.result-metadata span {
+
+    padding:
+        5px
+        8px;
+
+    border:
+        1px solid
+        var(--line);
+
+    color:
+        var(--muted);
+
+    font-family:
+        "IBM Plex Mono";
+
+    font-size: 7px;
 
     text-transform: uppercase;
 
@@ -1681,13 +1995,20 @@ No debemos aplicar max-width:100%.
 
 .score-card {
 
-    margin: 25px 0 12px;
+    margin:
+        25px
+        0
+        12px;
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr
+        1fr;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
 }
 
@@ -1696,7 +2017,9 @@ No debemos aplicar max-width:100%.
 
     padding: 17px;
 
-    border-right: 1px solid var(--line);
+    border-right:
+        1px solid
+        var(--line);
 
 }
 
@@ -1716,7 +2039,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 7px;
 
@@ -1731,7 +2055,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--sky);
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 28px;
 
@@ -1747,7 +2072,10 @@ No debemos aplicar max-width:100%.
 
 .score-card p {
 
-    margin: 4px 0 0;
+    margin:
+        4px
+        0
+        0;
 
     color: var(--muted);
 
@@ -1760,9 +2088,12 @@ No debemos aplicar max-width:100%.
 
     padding: 17px;
 
-    border: 1px solid rgba(120,200,242,.45);
+    border:
+        1px solid
+        rgba(120,200,242,.45);
 
-    background: rgba(120,200,242,.06);
+    background:
+        rgba(120,200,242,.06);
 
 }
 
@@ -1773,7 +2104,8 @@ No debemos aplicar max-width:100%.
 
     margin-top: 5px;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 37px;
 
@@ -1784,20 +2116,30 @@ No debemos aplicar max-width:100%.
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr
+        1fr;
 
-    margin: 18px 0;
+    margin:
+        18px
+        0;
 
-    border-top: 1px solid var(--line);
+    border-top:
+        1px solid
+        var(--line);
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid
+        var(--line);
 
 }
 
 
 .answer-comparison > div {
 
-    padding: 12px 0;
+    padding:
+        12px
+        0;
 
 }
 
@@ -1808,7 +2150,8 @@ No debemos aplicar max-width:100%.
 
     margin-top: 5px;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
 }
 
@@ -1817,11 +2160,14 @@ No debemos aplicar max-width:100%.
 
     display: block;
 
-    margin: 18px 0;
+    margin:
+        18px
+        0;
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1830,15 +2176,27 @@ No debemos aplicar max-width:100%.
 }
 
 
-/* ========================================= */
-/* FINAL                                     */
-/* ========================================= */
+.source-link:hover {
+
+    color: var(--sky);
+
+}
+
+
+/* ======================================================== */
+/* FINAL                                                    */
+/* ======================================================== */
 
 .final-main {
 
-    min-height: calc(100vh - 72px);
+    min-height:
+        calc(
+            100vh - 72px
+        );
 
-    padding: 6vh 6vw;
+    padding:
+        6vh
+        6vw;
 
     text-align: center;
 
@@ -1886,7 +2244,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1895,11 +2254,20 @@ No debemos aplicar max-width:100%.
 
 .final-main h1 {
 
-    margin: 12px 0 25px;
+    margin:
+        12px
+        0
+        25px;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
-    font-size: clamp(38px,5vw,72px);
+    font-size:
+        clamp(
+            38px,
+            5vw,
+            72px
+        );
 
     line-height: .95;
 
@@ -1921,9 +2289,13 @@ No debemos aplicar max-width:100%.
 
     display: inline-block;
 
-    padding: 25px 45px;
+    padding:
+        25px
+        45px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
 }
 
@@ -1934,7 +2306,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1947,7 +2320,8 @@ No debemos aplicar max-width:100%.
 
     margin-top: 8px;
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 65px;
 
@@ -1969,9 +2343,12 @@ No debemos aplicar max-width:100%.
 
     bottom: -13px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    padding: 7px 14px;
+    padding:
+        7px
+        14px;
 
     white-space: nowrap;
 
@@ -1979,7 +2356,8 @@ No debemos aplicar max-width:100%.
 
     color: #10233a;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -1992,11 +2370,15 @@ No debemos aplicar max-width:100%.
 
     max-width: 850px;
 
-    margin: 45px auto 25px;
+    margin:
+        45px
+        auto
+        25px;
 
     display: grid;
 
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns:
+        repeat(5,1fr);
 
     gap: 8px;
 
@@ -2007,7 +2389,9 @@ No debemos aplicar max-width:100%.
 
     padding: 12px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
 }
 
@@ -2016,7 +2400,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--muted);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 7px;
 
@@ -2027,9 +2412,12 @@ No debemos aplicar max-width:100%.
 
     display: block;
 
-    margin: 6px 0;
+    margin:
+        6px
+        0;
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 17px;
 
@@ -2064,16 +2452,17 @@ No debemos aplicar max-width:100%.
 
     color: var(--success);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 9px;
 
 }
 
 
-/* ========================================= */
-/* MODALES                                   */
-/* ========================================= */
+/* ======================================================== */
+/* MODALES                                                  */
+/* ======================================================== */
 
 .modal {
 
@@ -2103,7 +2492,8 @@ No debemos aplicar max-width:100%.
 
     inset: 0;
 
-    background: rgba(0,5,12,.85);
+    background:
+        rgba(0,5,12,.85);
 
 }
 
@@ -2114,11 +2504,17 @@ No debemos aplicar max-width:100%.
 
     z-index: 2;
 
-    width: min(850px,92vw);
+    width:
+        min(
+            850px,
+            92vw
+        );
 
     padding: 35px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: #0d2035;
 
@@ -2148,7 +2544,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -2157,7 +2554,8 @@ No debemos aplicar max-width:100%.
 
 .modal-card h2 {
 
-    font-family: "Archivo Black";
+    font-family:
+        "Archivo Black";
 
     font-size: 34px;
 
@@ -2168,11 +2566,16 @@ No debemos aplicar max-width:100%.
 
     display: grid;
 
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns:
+        repeat(4,1fr);
 
-    margin: 20px 0;
+    margin:
+        20px
+        0;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
 }
 
@@ -2181,7 +2584,9 @@ No debemos aplicar max-width:100%.
 
     padding: 17px;
 
-    border-right: 1px solid var(--line);
+    border-right:
+        1px solid
+        var(--line);
 
 }
 
@@ -2190,7 +2595,8 @@ No debemos aplicar max-width:100%.
 
     color: var(--sky);
 
-    font-family: "IBM Plex Mono";
+    font-family:
+        "IBM Plex Mono";
 
     font-size: 8px;
 
@@ -2244,7 +2650,9 @@ No debemos aplicar max-width:100%.
 
     height: 42px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid
+        var(--line);
 
     background: #071527;
 
@@ -2255,15 +2663,18 @@ No debemos aplicar max-width:100%.
 }
 
 
-/* ========================================= */
-/* RESPONSIVE                                */
-/* ========================================= */
+/* ======================================================== */
+/* RESPONSIVE                                               */
+/* ======================================================== */
 
-@media (max-width: 1000px) {
+@media (
+    max-width: 1000px
+) {
 
     .home-main {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -2277,13 +2688,18 @@ No debemos aplicar max-width:100%.
 }
 
 
-@media (max-width: 850px) {
+@media (
+    max-width: 850px
+) {
 
     .game-layout {
 
         height: auto;
 
-        min-height: calc(100vh - 72px);
+        min-height:
+            calc(
+                100vh - 72px
+            );
 
         display: block;
 
@@ -2298,7 +2714,9 @@ No debemos aplicar max-width:100%.
 
         border-right: 0;
 
-        border-bottom: 1px solid var(--line);
+        border-bottom:
+            1px solid
+            var(--line);
 
     }
 
@@ -2327,7 +2745,8 @@ No debemos aplicar max-width:100%.
 
     .result-layout {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -2341,7 +2760,9 @@ No debemos aplicar max-width:100%.
 }
 
 
-@media (max-width: 700px) {
+@media (
+    max-width: 700px
+) {
 
     .topnav {
 
@@ -2350,6 +2771,7 @@ No debemos aplicar max-width:100%.
     }
 
 
+    .photo-counter,
     .best-score {
 
         display: none;
@@ -2359,14 +2781,17 @@ No debemos aplicar max-width:100%.
 
     .feature-band {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
 
     .feature-band article {
 
-        border-bottom: 1px solid var(--line);
+        border-bottom:
+            1px solid
+            var(--line);
 
     }
 
@@ -2400,7 +2825,8 @@ No debemos aplicar max-width:100%.
 
     .score-card {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -2409,21 +2835,25 @@ No debemos aplicar max-width:100%.
 
         border-right: 0;
 
-        border-bottom: 1px solid var(--line);
+        border-bottom:
+            1px solid
+            var(--line);
 
     }
 
 
     .round-summary {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
 
     .how-grid {
 
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
 
     }
 
